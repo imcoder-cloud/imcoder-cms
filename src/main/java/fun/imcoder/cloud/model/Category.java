@@ -11,7 +11,6 @@ import lombok.Data;
  */
 @Data
 public class Category extends BaseModel {
-
     private Integer id;
     private String name;
     private String alias;
@@ -19,5 +18,4 @@ public class Category extends BaseModel {
     private String thumbnail;
     private Integer parentId;
     private Integer sort;
-
 }
