@@ -1,0 +1,15 @@
+server:
+  port: 9600
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3335/imcoder-blog?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: root@3335
+
+mybatis-plus:
+  mapperLocations: classpath:mappers/*.xml
+  type-aliases-package: fun.imcoder.cloud.mapper
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

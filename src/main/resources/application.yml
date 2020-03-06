@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active: dev
+  main:
+    allow-bean-definition-overriding: true
+
+wechat:
+  appId: wx3996631dccd86493
+  appSecret: 18ef18ed884025e562f57c6320bff004
+  token: 37c310aa1f163abf193d0d11991dec8c
+  redisPrefix: bangnvlang
