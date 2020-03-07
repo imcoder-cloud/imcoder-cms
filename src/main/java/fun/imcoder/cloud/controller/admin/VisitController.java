@@ -1,4 +1,4 @@
-package fun.imcoder.cloud.controller;
+package fun.imcoder.cloud.controller.admin;
 
 import fun.imcoder.cloud.base.BaseController;
 import fun.imcoder.cloud.model.Visit;
