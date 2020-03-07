@@ -25,7 +25,7 @@ public class Post extends BaseModel {
     private Integer disallowComment;
     private String password;
     private String template;
-    private Integer topPriority;
+    private Integer top;
     private Integer createFrom;
     private Integer likes;
     private String editTime;
