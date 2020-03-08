@@ -12,9 +12,8 @@ public interface ImcoderFreemarkerTag extends TemplateDirectiveModel {
 
     @Override
     default void execute(Environment environment, Map params, TemplateModel[] model, TemplateDirectiveBody body) throws TemplateException, IOException {
-
         // 子类处理业务逻辑
-        Object data = getData(params);
+        Object data = getData(params, environment);
         // 把得到的值 wrap 输出前端
         TemplateModel templateModel = new BeansWrapperBuilder(Configuration.VERSION_2_3_28).build().wrap(data);
         // 若子类没有定义 则用默认key
@@ -30,7 +29,7 @@ public interface ImcoderFreemarkerTag extends TemplateDirectiveModel {
      * @param params
      * @return
      */
-    Object getData(Map params);
+    Object getData(Map params, Environment environment) throws TemplateModelException;
 
     /**
      * 获取modelAttr key
