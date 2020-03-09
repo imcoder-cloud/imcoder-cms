@@ -3,6 +3,7 @@ spring:
     active: dev
 
   freemarker:
-    template-loader-path: file:///D:/test/templates/
+#    template-loader-path: file:///D:/test/templates/
+    template-loader-path: classpath:/templates/
     cache: false
     suffix: .html

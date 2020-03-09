@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>${options.blog_title}</title>
+</head>
+
+<body>
+  <div>
+    <@category result="categories">
+      <#list categories as category>
+        <#if category.parentId==0>
+          ${category.name}
+        </#if>
+      </#list>
+    </@category>
+  </div>
+</body>
+
+</html>

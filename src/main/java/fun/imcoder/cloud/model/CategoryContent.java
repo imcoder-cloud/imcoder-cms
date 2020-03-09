@@ -4,14 +4,14 @@ import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
 
 /**
- * PostTag model
+ * PostCategory model
  *
  * @author cdd
  * @date 2020-03-06
  */
 @Data
-public class PostTag extends BaseModel {
+public class CategoryContent extends BaseModel {
     private Integer id;
-    private Integer postId;
-    private Integer tagId;
+    private Integer categoryId;
+    private Integer contentId;
 }

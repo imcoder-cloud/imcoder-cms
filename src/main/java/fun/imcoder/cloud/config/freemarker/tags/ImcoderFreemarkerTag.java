@@ -13,12 +13,14 @@ public interface ImcoderFreemarkerTag extends TemplateDirectiveModel {
     @Override
     default void execute(Environment environment, Map params, TemplateModel[] model, TemplateDirectiveBody body) throws TemplateException, IOException {
         // 子类处理业务逻辑
-        Object data = getData(params, environment);
+        int page = params.get("page") != null ? getInt(params, "page") : 1;
+        int size = params.get("size") != null ? getInt(params, "size") : 10;
+        Object data = getData(page, size, params, environment);
         // 把得到的值 wrap 输出前端
         TemplateModel templateModel = new BeansWrapperBuilder(Configuration.VERSION_2_3_28).build().wrap(data);
-        // 若子类没有定义 则用默认key
-        String attrKey = getAttrKey();
-        environment.setVariable(attrKey != null ? attrKey : DEFAULT_KEY_IMCODER, templateModel);
+        // 若没有定义返回key 则用默认key
+        Object resultKey = params.get("result");
+        environment.setVariable(resultKey != null ? resultKey.toString() : DEFAULT_KEY_IMCODER, templateModel);
         body.render(environment.getOut());
     }
 
@@ -29,14 +31,7 @@ public interface ImcoderFreemarkerTag extends TemplateDirectiveModel {
      * @param params
      * @return
      */
-    Object getData(Map params, Environment environment) throws TemplateModelException;
-
-    /**
-     * 获取modelAttr key
-     *
-     * @return
-     */
-    String getAttrKey();
+    Object getData(int page, int size, Map params, Environment environment) throws TemplateModelException;
 
     /**
      * 获取 long 参数

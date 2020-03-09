@@ -2,19 +2,15 @@ package fun.imcoder.cloud.config.freemarker;
 
 import fun.imcoder.cloud.annotation.FreemarkerTag;
 import fun.imcoder.cloud.model.Options;
-import fun.imcoder.cloud.model.PostTag;
 import fun.imcoder.cloud.service.OptionsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

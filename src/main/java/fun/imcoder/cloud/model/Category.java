@@ -1,7 +1,11 @@
 package fun.imcoder.cloud.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * Category model
@@ -11,11 +15,21 @@ import lombok.Data;
  */
 @Data
 public class Category extends BaseModel {
+    @TableId
     private Integer id;
+    private Integer parentId;
+    private Integer modelId;
     private String name;
     private String alias;
-    private String description;
-    private String thumbnail;
-    private Integer parentId;
     private Integer sort;
+    private String listPage;
+    private String detailPage;
+    private String path;
+    private String outLink;
+    private String icon;
+    private String keywords;
+    private String description;
+
+    @TableField(exist = false)
+    private List<Category> children;
 }

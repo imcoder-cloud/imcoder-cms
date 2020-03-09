@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>${categoryName}-${options.blog_title}</title>
+</head>
+
+<body>
+  <div>
+    <@content result="data">
+      <#list data.records as content>
+        <div>${content.title}</div>
+      </#list>
+    </@content>
+  </div>
+</body>
+
+</html>
