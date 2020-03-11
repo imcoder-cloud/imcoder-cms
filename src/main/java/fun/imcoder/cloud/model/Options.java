@@ -1,8 +1,6 @@
 package fun.imcoder.cloud.model;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
 
@@ -14,8 +12,9 @@ import lombok.Data;
  */
 @Data
 public class Options extends BaseModel {
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
+    @TableField(condition = SqlCondition.LIKE)
     private String optionKey;
     private String optionValue;
 }

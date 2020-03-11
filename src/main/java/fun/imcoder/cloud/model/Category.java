@@ -1,6 +1,7 @@
 package fun.imcoder.cloud.model;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
@@ -20,6 +21,7 @@ public class Category extends BaseModel {
     private Integer id;
     private Integer parentId;
     private Integer modelId;
+    @TableField(condition = SqlCondition.LIKE)
     private String name;
     private String alias;
     private Integer sort;

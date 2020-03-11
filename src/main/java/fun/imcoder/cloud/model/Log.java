@@ -1,6 +1,8 @@
 package fun.imcoder.cloud.model;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
 
@@ -12,6 +14,7 @@ import lombok.Data;
  */
 @Data
 public class Log extends BaseModel {
+    @TableId(type = IdType.AUTO)
     private Long id;
     private String logKey;
     private String content;
