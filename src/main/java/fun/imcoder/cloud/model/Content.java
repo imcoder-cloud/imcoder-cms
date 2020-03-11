@@ -1,9 +1,12 @@
 package fun.imcoder.cloud.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * Content model
@@ -13,7 +16,7 @@ import lombok.Data;
  */
 @Data
 public class Content extends BaseModel {
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private String title;
     private String summary;
@@ -40,4 +43,8 @@ public class Content extends BaseModel {
 
     @TableField(exist = false)
     private Integer categoryId;
+    @TableField(exist = false)
+    private List<CategoryContent> categoryContents;
+    @TableField(exist = false)
+    private List<ContentTag> contentTags;
 }
