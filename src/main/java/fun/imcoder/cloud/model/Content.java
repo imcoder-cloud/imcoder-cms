@@ -1,5 +1,6 @@
 package fun.imcoder.cloud.model;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
@@ -30,9 +31,13 @@ public class Content extends BaseModel {
     private String description;
     private String thumbnail;
     private Integer visits;
+    private Integer status;
     private String password;
     private Integer top;
     private Integer recommend;
     private Integer likes;
     private String editTime;
+
+    @TableField(exist = false)
+    private Integer categoryId;
 }

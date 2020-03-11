@@ -7,8 +7,7 @@ spring:
     url: jdbc:mysql://118.31.79.122:3335/imcoder-blog?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: root@3335
-  redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
-    password:
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

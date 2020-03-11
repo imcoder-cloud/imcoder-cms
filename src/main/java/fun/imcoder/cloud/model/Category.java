@@ -1,5 +1,6 @@
 package fun.imcoder.cloud.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Data
 public class Category extends BaseModel {
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer parentId;
     private Integer modelId;
@@ -32,4 +33,6 @@ public class Category extends BaseModel {
 
     @TableField(exist = false)
     private List<Category> children;
+    @TableField(exist = false)
+    private String modelName;
 }

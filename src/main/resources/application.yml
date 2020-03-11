@@ -7,3 +7,7 @@ spring:
     template-loader-path: classpath:/templates/
     cache: false
     suffix: .html
+
+mybatis-plus:
+  mapperLocations: classpath:mappers/*.xml
+
