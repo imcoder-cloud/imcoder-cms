@@ -3,8 +3,11 @@ package fun.imcoder.cloud.controller.content;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import fun.imcoder.cloud.model.Category;
 import fun.imcoder.cloud.model.Content;
+import fun.imcoder.cloud.model.Tag;
 import fun.imcoder.cloud.service.CategoryService;
 import fun.imcoder.cloud.service.ContentService;
+import fun.imcoder.cloud.service.TagService;
+import fun.imcoder.cloud.utils.ImcoderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,23 +28,53 @@ public class MainController {
     @Resource
     private CategoryService categoryService;
     @Resource
+    private TagService tagService;
+    @Resource
     private ContentService contentService;
 
     @GetMapping("/")
-    public String content(Model model, HttpServletRequest request) {
-        model.addAttribute("title", "coder的自我修养");
-        Map<String, String> testMap = new HashMap<>();
-        testMap.put("name", "imcoder");
-        model.addAttribute("test", testMap);
-        String uri = request.getRequestURI();
-        if ("/".equals(uri)) {
-            return "index";
-        }
-        return uri;
+    public String content(Model model) {
+        return ImcoderUtils.renderTemplate("index");
     }
 
-    @GetMapping("/{path}")
-    public String category(Model model, @PathVariable String path, HttpServletRequest request) {
+    @GetMapping("/admin")
+    public String admin(Model model) {
+        return "admin/index";
+    }
+
+    /**
+     * 所有栏目分类
+     * 模板为 categories.html
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/categories")
+    public String categories(Model model) {
+        return ImcoderUtils.renderTemplate("categories");
+    }
+
+    /**
+     * 所有标签
+     * 模板为 tags.html
+     *
+     * @param model
+     * @return
+     */
+    @GetMapping("/tags")
+    public String tags(Model model) {
+        return ImcoderUtils.renderTemplate("tags");
+    }
+
+    /**
+     * 栏目内容
+     *
+     * @param model
+     * @param path
+     * @return
+     */
+    @GetMapping("/categories/{path}")
+    public String category(Model model, @PathVariable String path) {
         Category param = new Category();
         param.setPath(path);
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>(param);
@@ -49,9 +82,35 @@ public class MainController {
         model.addAttribute("categoryId", category.getId());
         model.addAttribute("categoryName", category.getName());
         model.addAttribute("modelId", category.getModelId());
-        return category.getListPage();
+        return ImcoderUtils.renderTemplate(category.getListPage());
     }
 
+    /**
+     * 标签内容
+     *
+     * @param model
+     * @param path
+     * @return
+     */
+    @GetMapping("/tags/{path}")
+    public String tag(Model model, @PathVariable String path) {
+        Tag param = new Tag();
+        param.setPath(path);
+        QueryWrapper<Tag> queryWrapper = new QueryWrapper<>(param);
+        Tag tag = tagService.getOne(queryWrapper);
+        model.addAttribute("tagId", tag.getId());
+        model.addAttribute("tagName", tag.getName());
+        return ImcoderUtils.renderTemplate(tag.getTemplate());
+    }
+
+    /**
+     * 归档内容
+     *
+     * @param model
+     * @param path
+     * @return
+     * @throws IllegalAccessException
+     */
     @GetMapping("/archives/{path}")
     public String archives(Model model, @PathVariable String path) throws IllegalAccessException {
         Content param = new Content();
@@ -62,7 +121,7 @@ public class MainController {
             field.setAccessible(true);
             model.addAttribute(field.getName(), field.get(content));
         }
-        return content.getTemplate();
+        return ImcoderUtils.renderTemplate(content.getPage());
     }
 
 }

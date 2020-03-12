@@ -31,7 +31,7 @@ public class Content extends BaseModel {
     private Integer sort;
     private String outLink;
     private Integer comment;
-    private String template;
+    private String page;
     private String keywords;
     private String description;
     private String thumbnail;

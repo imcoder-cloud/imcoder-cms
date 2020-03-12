@@ -1,5 +1,6 @@
 package fun.imcoder.cloud.utils;
 
+import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.model.Category;
 
 import java.util.ArrayList;
@@ -28,5 +29,16 @@ public class ImcoderUtils {
             }
         }
         return rtnList;
+    }
+
+    /**
+     * 渲染模板
+     * cdd
+     *
+     * @param path
+     * @return
+     */
+    public static String renderTemplate(String path) {
+        return ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE) + "/" + path;
     }
 }

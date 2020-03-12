@@ -4,10 +4,12 @@ spring:
 
   freemarker:
 #    template-loader-path: file:///D:/test/templates/
-    template-loader-path: classpath:/templates/
+#    template-loader-path: classpath:/admin/
     cache: false
     suffix: .html
 
 mybatis-plus:
   mapperLocations: classpath:mappers/*.xml
 
+imcoder:
+  workDir: D:/test/templates/
