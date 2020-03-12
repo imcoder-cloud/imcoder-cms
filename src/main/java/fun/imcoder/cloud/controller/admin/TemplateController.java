@@ -58,11 +58,12 @@ public class TemplateController extends BaseController<Template, TemplateService
     @PostMapping("/file/copy")
     private ResponseData copyFile(@RequestBody Map<String, String> map) throws IOException {
         String src = map.get("src");
+        File srcFile = FileUtils.newFile(src);
         String dest = map.get("dest");
         if (StringUtils.isEmpty(dest)) {
             dest = ImcoderConfig.TEMPLATES_DIR.replace("file:///", "") + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);
+            dest += "/"+ srcFile.getName();
         }
-        File srcFile = FileUtils.newFile(src);
         File destFile = FileUtils.newFile(dest);
         if (destFile.exists()) {
             destFile = FileUtils.newFile(destFile.getParent() + "/" + (new Date()).getTime() + "-" + destFile.getName());
