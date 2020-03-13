@@ -100,7 +100,7 @@ public class MainController {
         Tag tag = tagService.getOne(queryWrapper);
         model.addAttribute("tagId", tag.getId());
         model.addAttribute("tagName", tag.getName());
-        return ImcoderUtils.renderTemplate(tag.getTemplate());
+        return ImcoderUtils.renderTemplate(tag.getPage());
     }
 
     /**

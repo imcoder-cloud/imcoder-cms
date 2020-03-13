@@ -34,7 +34,7 @@ public class Content extends BaseModel {
     private String page;
     private String keywords;
     private String description;
-    private String thumbnail;
+    private String img;
     private Integer visits;
     private Integer status;
     private String password;
@@ -45,6 +45,8 @@ public class Content extends BaseModel {
 
     @TableField(exist = false)
     private Integer categoryId;
+    @TableField(exist = false)
+    private String categoryNames;
     @TableField(exist = false)
     private List<CategoryContent> categoryContents;
     @TableField(exist = false)

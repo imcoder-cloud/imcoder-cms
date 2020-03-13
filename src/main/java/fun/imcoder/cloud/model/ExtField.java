@@ -8,19 +8,21 @@ import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
 
 /**
- * Tag model
+ * Attachment model
  *
  * @author cdd
  * @date 2020-03-06
  */
 @Data
-public class Tag extends BaseModel {
+public class ExtField extends BaseModel {
     @TableId(type = IdType.AUTO)
     private Integer id;
     @TableField(condition = SqlCondition.LIKE)
     private String name;
-    private String alias;
-    private String path;
-    private String page;
-    private String icon;
+    private String categoryId;
+    private String value;
+    private String type;
+    private String size;
+    private String description;
+    private Integer sort;
 }
