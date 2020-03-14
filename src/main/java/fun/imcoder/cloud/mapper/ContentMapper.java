@@ -3,10 +3,21 @@ package fun.imcoder.cloud.mapper;
 import fun.imcoder.cloud.base.BaseMapper;
 import fun.imcoder.cloud.model.Content;
 
+import java.io.Serializable;
+import java.util.Map;
+
 /**
- *
  * @Author cdd
  * @Date 2020-03-06
  */
 public interface ContentMapper extends BaseMapper<Content> {
+
+    Content getById(Serializable id);
+
+    Boolean insertContentExt(Map<String, Object> map);
+
+    Boolean updateContentExt(Map<String, Object> map);
+
+    Map getContentExtByContentId(Map<String, Object> map);
+
 }

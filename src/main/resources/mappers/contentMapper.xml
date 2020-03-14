@@ -11,7 +11,9 @@
         a.summary summary,
         a.editor_type editorType,
         a.path path,
-        (select group_concat(c.name separator '  ') from category c where c.id in(select d.category_id from
+        (select group_concat(d.category_id) from category_content d where d.content_id = a.id) categoryIds,
+        (select group_concat(d.tag_id) from content_tag d where d.content_id = a.id) tagIds,
+        (select group_concat(c.name separator ' ') from category c where c.id in(select d.category_id from
         category_content d where d.content_id = a.id)) categoryNames,
         a.author author,
         a.source source,
@@ -43,7 +45,66 @@
                 )
             </if>
         </where>
-        order by a.sort
+        order by a.sort,a.create_time
     </select>
+
+    <select id="getById" resultType="fun.imcoder.cloud.model.Content">
+        select
+        a.id id,
+        a.title title,
+        a.summary summary,
+        a.original_content originalContent,
+        a.format_content formatContent,
+        a.editor_type editorType,
+        a.path path,
+        (select group_concat(d.category_id) from category_content d where d.content_id = a.id) categoryIds,
+        (select group_concat(d.tag_id) from content_tag d where d.content_id = a.id) tagIds,
+        (select group_concat(c.name) from category c where c.id in(select d.category_id from
+        category_content d where d.content_id = a.id)) categoryNames,
+        a.author author,
+        a.source source,
+        a.sort sort,
+        a.out_link outLink,
+        a.comment comment,
+        a.page page,
+        a.keywords keywords,
+        a.description description,
+        a.img img,
+        a.visits visits,
+        a.status status,
+        a.password password,
+        a.top top,
+        a.recommend recommend,
+        a.likes likes,
+        a.edit_time editTime,
+        a.create_time,
+        a.modify_time
+        from content a
+        where id = #{id}
+    </select>
+
+    <select id="getContentExtByContentId" resultType="java.util.Map">
+        select
+            *
+        from content_ext a
+        where content_id = #{contentId}
+    </select>
+
+    <insert id="insertContentExt">
+        insert into content_ext(content_id) values (#{contentId})
+    </insert>
+
+    <update id="updateContentExt">
+        update content_ext
+        <set>
+            <foreach collection="fields.entrySet()" index="key" item="value" separator=",">
+                <if test="key != 'content_id'.toString()">
+                    ${key} = #{value}
+                </if>
+            </foreach>
+        </set>
+        where
+        content_id = #{contentId}
+    </update>
 
 </mapper>

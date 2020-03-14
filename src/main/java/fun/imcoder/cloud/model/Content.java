@@ -8,6 +8,7 @@ import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Content model
@@ -51,4 +52,10 @@ public class Content extends BaseModel {
     private List<CategoryContent> categoryContents;
     @TableField(exist = false)
     private List<ContentTag> contentTags;
+    @TableField(exist = false)
+    private String categoryIds;
+    @TableField(exist = false)
+    private String tagIds;
+    @TableField(exist = false)
+    private Map<String, Object> extFields;
 }

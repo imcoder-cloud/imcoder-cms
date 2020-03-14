@@ -1,10 +1,14 @@
 package fun.imcoder.cloud.utils;
 
+import fun.imcoder.cloud.base.BaseMapper;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
+import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Category;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ImcoderUtils {
 
@@ -40,5 +44,26 @@ public class ImcoderUtils {
      */
     public static String renderTemplate(String path) {
         return ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE) + "/" + path;
+    }
+
+    /**
+     * 访问路径必须唯一
+     * @param mapper
+     * @param id
+     * @param path
+     * @param <T>
+     * @throws ImcoderException.PathAlreadyExists
+     */
+    public static <T> void pathMustUnique(BaseMapper<T> mapper, Integer id, String path) throws ImcoderException.PathAlreadyExists {
+        Map<String, Object> map = new HashMap<>();
+        map.put("path", path);
+        List<T> list = mapper.selectByMap(map);
+        if (!list.isEmpty()) {
+            map.put("id", id);
+            list = mapper.selectByMap(map);
+            if (list.isEmpty()) {
+                throw new ImcoderException.PathAlreadyExists("访问路径[" + path + "]已经存在");
+            }
+        }
     }
 }
