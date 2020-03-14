@@ -99,8 +99,10 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
 
     private boolean updateContentExt(Content content) {
         Map<String, Object> contentExt = new HashMap<>();
+        Map<String, Object> extFields = content.getExtFields();
+        extFields.keySet().removeIf(key -> key.equals("create_time") || key.equals("modify_time"));
         contentExt.put("contentId", content.getId());
-        contentExt.put("fields", content.getExtFields());
+        contentExt.put("fields", extFields);
         return this.baseMapper.updateContentExt(contentExt);
     }
 
