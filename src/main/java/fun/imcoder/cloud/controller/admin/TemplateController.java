@@ -26,7 +26,7 @@ public class TemplateController extends BaseController<Template, TemplateService
         if (StringUtils.isEmpty(name)) {
             name = ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);
         }
-        String dir = ImcoderConfig.TEMPLATES_DIR.replace("file:///", "") + name;
+        String dir = ImcoderConfig.TEMPLATES_DIR + name;
         return ResponseData.success(FileUtils.getFiles(dir));
     }
 

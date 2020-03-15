@@ -36,6 +36,7 @@ public class Content extends BaseModel {
     private String keywords;
     private String description;
     private String img;
+    private String imgs;
     private Integer visits;
     private Integer status;
     private String password;

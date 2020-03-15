@@ -14,6 +14,10 @@ import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,9 +51,9 @@ public class FreemarkerConfig implements ApplicationContextAware {
     }
 
     @Bean
-    public FreeMarkerConfigurer freeMarkerConfigurer() {
+    public FreeMarkerConfigurer freeMarkerConfigurer(){
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setTemplateLoaderPaths(ImcoderConfig.TEMPLATES_DIR, "classpath:/");
+        configurer.setTemplateLoaderPaths("file:///" + ImcoderConfig.TEMPLATES_DIR, "classpath:/");
         configurer.setDefaultEncoding("UTF-8");
         return configurer;
     }
