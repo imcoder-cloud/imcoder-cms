@@ -21,7 +21,9 @@ public class UploadController {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     @PostMapping("/{type}")
-    public ResponseData<Map<String, String>> uploadFile(@PathVariable String type, @RequestParam("file") MultipartFile file) {
+    public ResponseData<Map<String, String>> uploadFile(@PathVariable String type, @RequestParam("file") MultipartFile file, HttpServletRequest request) {
+        // 获取扩展字段名称
+        String extField = request.getParameter("ext_field");
         Map<String, String> fileMap = new HashMap<>();
         String datePath = sdf.format(new Date()) + "/";
         String filePath = ImcoderConfig.UPLOAD_DIR + type + "/" + datePath;
@@ -39,6 +41,8 @@ public class UploadController {
         try {
             file.transferTo(dest);
             fileMap.put("url", "/" + ImcoderConfig.UPLOAD_FOLDER + "/" + type + "/" + datePath + newFileName);
+            // 返回扩展字段名称
+            fileMap.put("extField", extField);
         } catch (IOException e) {
             log.error(e.toString(), e);
         }

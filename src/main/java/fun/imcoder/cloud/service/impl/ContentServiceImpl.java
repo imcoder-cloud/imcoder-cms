@@ -1,8 +1,5 @@
 package fun.imcoder.cloud.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import fun.imcoder.cloud.base.BaseServiceImpl;
 import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.mapper.CategoryContentMapper;
@@ -12,18 +9,18 @@ import fun.imcoder.cloud.mapper.ContentTagMapper;
 import fun.imcoder.cloud.model.CategoryContent;
 import fun.imcoder.cloud.model.Content;
 import fun.imcoder.cloud.model.ContentTag;
-import fun.imcoder.cloud.model.ExtField;
 import fun.imcoder.cloud.service.ContentService;
 import fun.imcoder.cloud.utils.ImcoderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> implements ContentService {
@@ -37,6 +34,9 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     @Transactional
     @Override
     public Boolean saveContent(Content content) throws ImcoderException.PathAlreadyExists {
+        if (StringUtils.isEmpty(content.getPath())) {
+            content.setPath(new Date().toString());
+        }
         ImcoderUtils.pathMustUnique(this.baseMapper, content.getId(), content.getPath());
         return saveContentInfo(content, "insert");
     }
@@ -45,6 +45,9 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     @Transactional
     public Boolean updateContent(Content content) throws ImcoderException.PathAlreadyExists {
         Integer contentId = content.getId();
+        if (StringUtils.isEmpty(content.getPath())) {
+            content.setPath(new Date().toString());
+        }
         ImcoderUtils.pathMustUnique(this.baseMapper, contentId, content.getPath());
         Map<String, Object> params = new HashMap<>();
         params.put("content_id", contentId);
@@ -54,7 +57,6 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         return saveContentInfo(content, "update");
     }
 
-    @Transactional
     boolean saveContentInfo(Content content, String type) {
         List<CategoryContent> categoryContents = content.getCategoryContents();
         List<ContentTag> contentTags = content.getContentTags();

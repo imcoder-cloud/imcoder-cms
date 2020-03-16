@@ -81,7 +81,6 @@ public class MainController {
         Category category = categoryService.getOne(queryWrapper);
         model.addAttribute("categoryId", category.getId());
         model.addAttribute("categoryName", category.getName());
-        model.addAttribute("modelId", category.getModelId());
         return ImcoderUtils.renderTemplate(category.getListPage());
     }
 

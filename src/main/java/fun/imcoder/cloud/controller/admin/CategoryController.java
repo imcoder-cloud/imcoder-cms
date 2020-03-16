@@ -1,19 +1,12 @@
 package fun.imcoder.cloud.controller.admin;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import fun.imcoder.cloud.annotation.ModelParam;
 import fun.imcoder.cloud.base.BaseController;
-import fun.imcoder.cloud.common.PageRequest;
 import fun.imcoder.cloud.common.ResponseData;
-import fun.imcoder.cloud.enums.ModelParamType;
+import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Category;
 import fun.imcoder.cloud.service.CategoryService;
 import fun.imcoder.cloud.utils.ImcoderUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +19,16 @@ public class CategoryController extends BaseController<Category, CategoryService
     public ResponseData<List<Category>> treePage() {
         List<Category> list = service.customList(new HashMap<>());
         return ResponseData.success(ImcoderUtils.convertToTree(list, 0));
+    }
+
+    @PostMapping("/save")
+    private ResponseData<Category> save(@RequestBody Category category) throws ImcoderException.PathAlreadyExists {
+        return ResponseData.success(service.saveCategory(category));
+    }
+
+    @PutMapping("/update")
+    private ResponseData<Category> update(@RequestBody Category category) throws ImcoderException.PathAlreadyExists {
+        return ResponseData.success(service.updateCategory(category));
     }
 
 }

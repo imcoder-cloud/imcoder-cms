@@ -1,11 +1,13 @@
 package fun.imcoder.cloud.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fun.imcoder.cloud.base.BaseService;
-import fun.imcoder.cloud.common.PageRequest;
+import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Category;
 
 public interface CategoryService extends BaseService<Category> {
+
+    Category saveCategory(Category category) throws ImcoderException.PathAlreadyExists;
+
+    Category updateCategory(Category category) throws ImcoderException.PathAlreadyExists;
+
 }

@@ -1,6 +1,5 @@
 package fun.imcoder.cloud.service.impl;
 
-import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import fun.imcoder.cloud.base.BaseServiceImpl;
 import fun.imcoder.cloud.mapper.ExtFieldMapper;
 import fun.imcoder.cloud.model.ExtField;
@@ -20,6 +19,7 @@ public class ExtFieldServiceImpl extends BaseServiceImpl<ExtFieldMapper, ExtFiel
     public boolean saveBatch(Collection<ExtField> entityList) {
         entityList.forEach(extField -> {
             if (StringUtils.isEmpty(extField.getId())) {
+                extField.setField(extField.getField()+"_"+extField.getType());
                 this.baseMapper.addColumn(extField);
             }
             this.baseMapper.insert(extField);

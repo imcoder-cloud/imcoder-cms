@@ -8,8 +8,6 @@
         select
         a.id id,
         a.parent_id parentId,
-        a.model_id modelId,
-        (select b.name from model b where b.id = a.model_id) modelName,
         a.name name,
         a.list_page listPage,
         a.detail_page detailPage,

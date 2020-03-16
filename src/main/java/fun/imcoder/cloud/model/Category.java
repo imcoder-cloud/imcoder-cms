@@ -20,7 +20,6 @@ public class Category extends BaseModel {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private Integer parentId;
-    private Integer modelId;
     @TableField(condition = SqlCondition.LIKE)
     private String name;
     private String alias;

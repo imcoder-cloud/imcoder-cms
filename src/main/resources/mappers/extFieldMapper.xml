@@ -8,6 +8,7 @@
         select
         a.id id,
         a.category_id categoryId,
+        (select d.name from category d where d.id = a.category_id) categoryName,
         a.name name,
         a.value value,
         a.type type,
@@ -33,12 +34,12 @@
 
     <update id="addColumn" parameterType="fun.imcoder.cloud.model.ExtField">
         alter table content_ext
-            add column ${name} varchar(${size})
+            add column ${field} varchar(${size}) default ''
     </update>
 
     <update id="delColumn" parameterType="fun.imcoder.cloud.model.ExtField">
         alter table content_ext
-            drop column ${name}
+            drop column ${field}
     </update>
 
 </mapper>

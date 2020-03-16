@@ -19,10 +19,14 @@ public class ExtField extends BaseModel {
     private Integer id;
     @TableField(condition = SqlCondition.LIKE)
     private String name;
+    private String field;
     private String categoryId;
     private String value;
     private String type;
     private String size;
     private String description;
     private Integer sort;
+
+    @TableField(exist = false)
+    private String categoryName;
 }
