@@ -1,7 +1,8 @@
 spring:
   profiles:
     active: dev
-
+  resources:
+    static-locations: classpath:/admin/static/
   freemarker:
 #    template-loader-path: file:///D:/test/templates/
 #    template-loader-path: classpath:/admin/

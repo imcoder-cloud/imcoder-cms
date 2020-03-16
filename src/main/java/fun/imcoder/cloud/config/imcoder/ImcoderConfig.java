@@ -30,6 +30,7 @@ public class ImcoderConfig extends WebMvcConfig {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/" + UPLOAD_FOLDER + "/**").addResourceLocations("file:D:/imcoder/upload/");
+        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/admin/static");
     }
 
 
