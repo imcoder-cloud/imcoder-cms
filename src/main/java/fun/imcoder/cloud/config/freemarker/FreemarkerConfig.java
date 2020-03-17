@@ -2,7 +2,9 @@ package fun.imcoder.cloud.config.freemarker;
 
 import fun.imcoder.cloud.annotation.FreemarkerTag;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
+import fun.imcoder.cloud.model.Label;
 import fun.imcoder.cloud.model.Options;
+import fun.imcoder.cloud.service.LabelService;
 import fun.imcoder.cloud.service.OptionsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -30,12 +32,17 @@ public class FreemarkerConfig implements ApplicationContextAware {
     private freemarker.template.Configuration configuration;
     @Resource
     private OptionsService optionsService;
+    @Resource
+    private LabelService labelService;
 
     @PostConstruct
     public void setConfigure() throws Exception {
         List<Options> options = optionsService.list();
+        List<Label> labels = labelService.list();
         ImcoderConfig.options = options.stream().collect(Collectors.toMap(Options::getOptionKey, Options::getOptionValue));
+        ImcoderConfig.labels = labels.stream().collect(Collectors.toMap(Label::getField, Label::getValue));
         configuration.setSharedVariable("options", ImcoderConfig.options);
+        configuration.setSharedVariable("labels", ImcoderConfig.labels);
 
         Map<String, Object> map = applicationContext.getBeansWithAnnotation(FreemarkerTag.class);
         for (Map.Entry<String, Object> entry : map.entrySet()) {
@@ -50,7 +57,7 @@ public class FreemarkerConfig implements ApplicationContextAware {
     }
 
     @Bean
-    public FreeMarkerConfigurer freeMarkerConfigurer(){
+    public FreeMarkerConfigurer freeMarkerConfigurer() {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
         configurer.setTemplateLoaderPaths("file:///" + ImcoderConfig.TEMPLATES_DIR, "classpath:/");
         configurer.setDefaultEncoding("UTF-8");

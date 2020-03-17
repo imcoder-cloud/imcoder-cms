@@ -14,6 +14,8 @@ public class ImcoderConfig extends WebMvcConfig {
 
     // 所有配置选项
     public static Map<String, String> options = new HashMap<>();
+    // 所有自定义标签
+    public static Map<String, String> labels = new HashMap<>();
 
     public final static String IMCODER_FOLDER = "imcoder";
     //    public final static String WORK_DIR = System.getProperties().getProperty("user.home") + "/" + IMCODER_FOLDER + "/";
