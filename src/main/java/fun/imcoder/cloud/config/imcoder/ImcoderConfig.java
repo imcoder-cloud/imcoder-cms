@@ -22,6 +22,7 @@ public class ImcoderConfig extends WebMvcConfig {
     public final static String TEMPLATES_DIR = WORK_DIR + TEMPLATES_FOLDER + "/";
     public final static String UPLOAD_FOLDER = "upload";
     public final static String UPLOAD_DIR = WORK_DIR + UPLOAD_FOLDER + "/";
+    public final static String STATIC_FOLDER = "static";
 
     public final static String OPTIONS_KEY_TEMPLATE = "template";
     public final static String OPTIONS_KEY_SITE_URL = "site_url";
@@ -29,8 +30,8 @@ public class ImcoderConfig extends WebMvcConfig {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/" + UPLOAD_FOLDER + "/**").addResourceLocations("file:D:/imcoder/upload/");
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/admin/static");
+        registry.addResourceHandler("/" + UPLOAD_FOLDER + "/**", "/" + STATIC_FOLDER + "/**")
+                .addResourceLocations("file:" + UPLOAD_DIR, "classpath:/admin/static/");
     }
 
 
