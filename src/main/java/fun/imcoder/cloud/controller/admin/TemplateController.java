@@ -1,5 +1,6 @@
 package fun.imcoder.cloud.controller.admin;
 
+import fun.imcoder.cloud.annotation.ModelParam;
 import fun.imcoder.cloud.base.BaseController;
 import fun.imcoder.cloud.common.ResponseData;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
@@ -62,7 +63,7 @@ public class TemplateController extends BaseController<Template, TemplateService
         String dest = map.get("dest");
         if (StringUtils.isEmpty(dest)) {
             dest = ImcoderConfig.TEMPLATES_DIR.replace("file:///", "") + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);
-            dest += "/"+ srcFile.getName();
+            dest += "/" + srcFile.getName();
         }
         File destFile = FileUtils.newFile(dest);
         if (destFile.exists()) {
@@ -73,6 +74,12 @@ public class TemplateController extends BaseController<Template, TemplateService
         rtn.put("path", destFile.getPath());
         rtn.put("name", destFile.getName());
         return ResponseData.success(rtn);
+    }
+
+    @PutMapping("/setActive")
+    private ResponseData setActive(@RequestBody Template template) {
+        this.service.setActive(template);
+        return ResponseData.success();
     }
 
 }

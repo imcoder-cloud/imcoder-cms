@@ -34,9 +34,8 @@ public class FreemarkerConfig implements ApplicationContextAware {
     @PostConstruct
     public void setConfigure() throws Exception {
         List<Options> options = optionsService.list();
-        Map<String, String> optionMap = options.stream().collect(Collectors.toMap(Options::getOptionKey, Options::getOptionValue));
-        configuration.setSharedVariable("options", optionMap);
-        ImcoderConfig.options = optionMap;
+        ImcoderConfig.options = options.stream().collect(Collectors.toMap(Options::getOptionKey, Options::getOptionValue));
+        configuration.setSharedVariable("options", ImcoderConfig.options);
 
         Map<String, Object> map = applicationContext.getBeansWithAnnotation(FreemarkerTag.class);
         for (Map.Entry<String, Object> entry : map.entrySet()) {

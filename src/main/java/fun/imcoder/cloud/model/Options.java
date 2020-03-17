@@ -14,7 +14,6 @@ import lombok.Data;
 public class Options extends BaseModel {
     @TableId(type = IdType.AUTO)
     private Integer id;
-    @TableField(condition = SqlCondition.LIKE)
     private String optionKey;
     private String optionValue;
 }
