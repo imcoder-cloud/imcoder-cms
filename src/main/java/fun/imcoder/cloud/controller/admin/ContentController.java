@@ -1,6 +1,5 @@
 package fun.imcoder.cloud.controller.admin;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import fun.imcoder.cloud.base.BaseController;
 import fun.imcoder.cloud.common.ResponseData;
 import fun.imcoder.cloud.exception.ImcoderException;
