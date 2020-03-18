@@ -120,7 +120,7 @@ public class MainController {
             field.setAccessible(true);
             model.addAttribute(field.getName(), field.get(content));
         }
-        return ImcoderUtils.renderTemplate(content.getPage());
+        return ImcoderUtils.renderTemplate(content.getPage().split(".")[0]);
     }
 
 }
