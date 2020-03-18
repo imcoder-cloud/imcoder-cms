@@ -17,7 +17,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
     @Override
     public Category saveCategory(Category category) throws ImcoderException.PathAlreadyExists {
         if (StringUtils.isEmpty(category.getPath())) {
-            category.setPath(new Date().toString());
+            category.setPath(new Date().getTime() + "");
         }
         ImcoderUtils.pathMustUnique(this.baseMapper, category.getId(), category.getPath());
         this.baseMapper.insert(category);
@@ -27,7 +27,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
     @Override
     public Category updateCategory(Category category) throws ImcoderException.PathAlreadyExists {
         if (StringUtils.isEmpty(category.getPath())) {
-            category.setPath(new Date().toString());
+            category.setPath(new Date().getTime() + "");
         }
         ImcoderUtils.pathMustUnique(this.baseMapper, category.getId(), category.getPath());
         this.baseMapper.updateById(category);

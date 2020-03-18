@@ -17,7 +17,7 @@ public class TagServiceImpl extends BaseServiceImpl<TagMapper, Tag> implements T
     @Override
     public Tag saveTag(Tag tag) throws ImcoderException.PathAlreadyExists {
         if (StringUtils.isEmpty(tag.getPath())) {
-            tag.setPath(new Date().toString());
+            tag.setPath(new Date().getTime() + "");
         }
         ImcoderUtils.pathMustUnique(this.baseMapper, tag.getId(), tag.getPath());
         this.baseMapper.insert(tag);
@@ -27,7 +27,7 @@ public class TagServiceImpl extends BaseServiceImpl<TagMapper, Tag> implements T
     @Override
     public Tag updateTag(Tag tag) throws ImcoderException.PathAlreadyExists {
         if (StringUtils.isEmpty(tag.getPath())) {
-            tag.setPath(new Date().toString());
+            tag.setPath(new Date().getTime() + "");
         }
         ImcoderUtils.pathMustUnique(this.baseMapper, tag.getId(), tag.getPath());
         this.baseMapper.updateById(tag);

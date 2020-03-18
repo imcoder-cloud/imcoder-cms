@@ -23,30 +23,27 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional
 public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> implements ContentService {
     @Resource
     private CategoryContentMapper categoryContentMapper;
     @Resource
     private ContentTagMapper contentTagMapper;
-    @Resource
-    private ContentExtMapper contentExtMapper;
 
-    @Transactional
     @Override
     public Boolean saveContent(Content content) throws ImcoderException.PathAlreadyExists {
         if (StringUtils.isEmpty(content.getPath())) {
-            content.setPath(new Date().toString());
+            content.setPath(new Date().getTime() + "");
         }
         ImcoderUtils.pathMustUnique(this.baseMapper, content.getId(), content.getPath());
         return saveContentInfo(content, "insert");
     }
 
     @Override
-    @Transactional
     public Boolean updateContent(Content content) throws ImcoderException.PathAlreadyExists {
         Integer contentId = content.getId();
         if (StringUtils.isEmpty(content.getPath())) {
-            content.setPath(new Date().toString());
+            content.setPath(new Date().getTime() + "");
         }
         ImcoderUtils.pathMustUnique(this.baseMapper, contentId, content.getPath());
         Map<String, Object> params = new HashMap<>();
@@ -63,10 +60,14 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         if ("insert".equals(type)) {
             this.save(content);
             this.insertContentExt(content);
-            this.updateContentExt(content);
+            if (!content.getExtFields().isEmpty()) {
+                this.updateContentExt(content);
+            }
         } else {
             this.updateById(content);
-            this.updateContentExt(content);
+            if (!content.getExtFields().isEmpty()) {
+                this.updateContentExt(content);
+            }
         }
         categoryContents.forEach(o -> {
             o.setContentId(content.getId());

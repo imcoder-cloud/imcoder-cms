@@ -17,11 +17,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/template")
 public class TemplateController extends BaseController<Template, TemplateService> {
 
+    /**
+     * 所有文件夹和文件
+     *
+     * @param name
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/directory")
     private ResponseData<List<ImcoderFile>> directory(@RequestParam String name) throws IOException {
         if (StringUtils.isEmpty(name)) {
@@ -29,6 +37,19 @@ public class TemplateController extends BaseController<Template, TemplateService
         }
         String dir = ImcoderConfig.TEMPLATES_DIR + name;
         return ResponseData.success(FileUtils.getFiles(dir));
+    }
+
+    /**
+     * 只获取html
+     *
+     * @return
+     * @throws IOException
+     */
+    @GetMapping("/file-list")
+    private ResponseData<List<ImcoderFile>> fileList() throws IOException {
+        String dir = ImcoderConfig.TEMPLATES_DIR + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);;
+        List<ImcoderFile> list = FileUtils.getFiles(dir).stream().filter(file -> file.getIsFile()).collect(Collectors.toList());
+        return ResponseData.success(list);
     }
 
     @GetMapping("/content")

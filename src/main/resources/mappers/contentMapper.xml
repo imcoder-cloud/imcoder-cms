@@ -46,7 +46,7 @@
                 )
             </if>
         </where>
-        order by a.sort,a.create_time
+        order by a.sort asc,a.create_time desc
     </select>
 
     <select id="getById" resultType="fun.imcoder.cloud.model.Content">
