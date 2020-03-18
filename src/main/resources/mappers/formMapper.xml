@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.imcoder.cloud.mapper.FormMapper">
+
+    <update id="createFormTable" parameterType="fun.imcoder.cloud.model.Form">
+        CREATE TABLE ${tableName}
+        (
+            `id`          int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+            `create_time` timestamp(0)     NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+            `modify_time` timestamp(0)     NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+            PRIMARY KEY (`id`) USING BTREE
+        ) ENGINE = InnoDB
+          AUTO_INCREMENT = 1
+          CHARACTER SET = utf8mb4
+          COLLATE = utf8mb4_0900_ai_ci
+          ROW_FORMAT = Dynamic;
+    </update>
+
+    <update id="dropFormTable" parameterType="fun.imcoder.cloud.model.Form">
+        DROP TABLE ${tableName}
+    </update>
+
+    <update id="addFormTableField" parameterType="java.util.Map">
+        alter table ${tableName}
+            add column ${field} varchar(${size}) default ''
+    </update>
+
+    <update id="dropFormTableField" parameterType="java.util.Map">
+        alter table ${tableName}
+            drop column ${field}
+    </update>
+
+    <select id="getFormData" resultType="java.util.Map">
+        select *
+        from ${params.tableName}
+        order by create_time desc
+    </select>
+
+</mapper>
