@@ -85,6 +85,16 @@
         where id = #{id}
     </select>
 
+    <select id="findExtField" resultType="fun.imcoder.cloud.model.ExtField">
+        select
+            a.id id,
+            a.name name,
+            a.field field,
+            a.type type
+        from ext_field a
+        where category_id in (select b.category_id from category_content b where b.content_id  = #{id})
+    </select>
+
     <select id="getContentExtByContentId" resultType="java.util.Map">
         select
             *
@@ -108,5 +118,9 @@
         where
         content_id = #{contentId}
     </update>
+
+    <insert id="addVisits">
+        update content set visits = visits + 1 where path = #{path}
+    </insert>
 
 </mapper>

@@ -2,13 +2,11 @@ package fun.imcoder.cloud.service.impl;
 
 import fun.imcoder.cloud.base.BaseServiceImpl;
 import fun.imcoder.cloud.exception.ImcoderException;
-import fun.imcoder.cloud.mapper.CategoryContentMapper;
-import fun.imcoder.cloud.mapper.ContentExtMapper;
-import fun.imcoder.cloud.mapper.ContentMapper;
-import fun.imcoder.cloud.mapper.ContentTagMapper;
+import fun.imcoder.cloud.mapper.*;
 import fun.imcoder.cloud.model.CategoryContent;
 import fun.imcoder.cloud.model.Content;
 import fun.imcoder.cloud.model.ContentTag;
+import fun.imcoder.cloud.model.ExtField;
 import fun.imcoder.cloud.service.ContentService;
 import fun.imcoder.cloud.utils.ImcoderUtils;
 import org.springframework.stereotype.Service;
@@ -17,10 +15,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @Transactional
@@ -29,6 +24,8 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     private CategoryContentMapper categoryContentMapper;
     @Resource
     private ContentTagMapper contentTagMapper;
+    @Resource
+    private ExtFieldMapper extFieldMapper;
 
     @Override
     public Boolean saveContent(Content content) throws ImcoderException.PathAlreadyExists {
@@ -52,6 +49,11 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         contentTagMapper.deleteByMap(params);
 
         return saveContentInfo(content, "update");
+    }
+
+    @Override
+    public Boolean addVisits(Content content) {
+        return this.baseMapper.addVisits(content);
     }
 
     boolean saveContentInfo(Content content, String type) {
@@ -90,7 +92,17 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         params.put("contentId", id);
         Map<String, Object> map = baseMapper.getContentExtByContentId(params);
         Content content = this.baseMapper.getById(id);
-        content.setExtFields(map);
+        List<ExtField> extList = this.baseMapper.findExtField(content);
+        List<Map<String, Object>> list = new ArrayList<>();
+        extList.forEach(extField -> {
+            Map<String, Object> m = new HashMap<>();
+            m.put("field", extField.getField());
+            m.put("name", extField.getName());
+            m.put("type", extField.getType());
+            m.put("value", map.get(extField.getField()));
+            list.add(m);
+        });
+        content.setExtFieldList(list);
         return content;
     }
 

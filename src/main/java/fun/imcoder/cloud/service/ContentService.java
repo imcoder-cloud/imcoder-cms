@@ -8,4 +8,6 @@ public interface ContentService extends BaseService<Content> {
     Boolean saveContent(Content content) throws ImcoderException.PathAlreadyExists;
 
     Boolean updateContent(Content content) throws ImcoderException.PathAlreadyExists;
+
+    Boolean addVisits(Content content);
 }

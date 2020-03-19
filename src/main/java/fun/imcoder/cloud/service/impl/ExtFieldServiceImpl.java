@@ -19,9 +19,9 @@ public class ExtFieldServiceImpl extends BaseServiceImpl<ExtFieldMapper, ExtFiel
     public boolean saveBatch(Collection<ExtField> entityList) {
         entityList.forEach(extField -> {
             if (StringUtils.isEmpty(extField.getId())) {
-                extField.setField(extField.getField()+"_"+extField.getType());
                 this.baseMapper.addColumn(extField);
             }
+            extField.setValue(extField.getValue().replaceAll("，", ","));
             this.baseMapper.insert(extField);
         });
         return true;

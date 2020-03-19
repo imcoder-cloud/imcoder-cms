@@ -28,6 +28,7 @@ public class ImcoderConfig extends WebMvcConfig {
 
     public final static String OPTIONS_KEY_TEMPLATE = "template";
     public final static String OPTIONS_KEY_SITE_URL = "site_url";
+    public final static String OPTIONS_KEY_KEYWORDS = "keywords";
 
 
     @Override

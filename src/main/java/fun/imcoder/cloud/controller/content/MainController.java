@@ -5,6 +5,7 @@ import fun.imcoder.cloud.model.Category;
 import fun.imcoder.cloud.model.Content;
 import fun.imcoder.cloud.model.Tag;
 import fun.imcoder.cloud.service.CategoryService;
+import fun.imcoder.cloud.service.ContentExtService;
 import fun.imcoder.cloud.service.ContentService;
 import fun.imcoder.cloud.service.TagService;
 import fun.imcoder.cloud.utils.ImcoderUtils;
@@ -31,6 +32,8 @@ public class MainController {
     private TagService tagService;
     @Resource
     private ContentService contentService;
+    @Resource
+    private ContentExtService contentExtService;
 
     @GetMapping("/")
     public String content(Model model) {
@@ -115,12 +118,15 @@ public class MainController {
         Content param = new Content();
         param.setPath(path);
         QueryWrapper<Content> queryWrapper = new QueryWrapper<>(param);
+        contentService.addVisits(param);
         Content content = contentService.getOne(queryWrapper);
         for (Field field : content.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             model.addAttribute(field.getName(), field.get(content));
         }
-        return ImcoderUtils.renderTemplate(content.getPage().split(".")[0]);
+        Map<String, String> extFields = contentExtService.getByContentId(content);
+        model.addAttribute("extFields", extFields);
+        return ImcoderUtils.renderTemplate(content.getPage().split("\\.")[0]);
     }
 
 }

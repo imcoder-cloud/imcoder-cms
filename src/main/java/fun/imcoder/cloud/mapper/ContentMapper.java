@@ -2,8 +2,10 @@ package fun.imcoder.cloud.mapper;
 
 import fun.imcoder.cloud.base.BaseMapper;
 import fun.imcoder.cloud.model.Content;
+import fun.imcoder.cloud.model.ExtField;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,5 +21,9 @@ public interface ContentMapper extends BaseMapper<Content> {
     Boolean updateContentExt(Map<String, Object> map);
 
     Map getContentExtByContentId(Map<String, Object> map);
+
+    List<ExtField> findExtField(Content content);
+
+    Boolean addVisits(Content content);
 
 }

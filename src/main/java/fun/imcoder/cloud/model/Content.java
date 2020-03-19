@@ -59,4 +59,6 @@ public class Content extends BaseModel {
     private String tagIds;
     @TableField(exist = false)
     private Map<String, Object> extFields;
+    @TableField(exist = false)
+    private List<Map<String, Object>> extFieldList;
 }

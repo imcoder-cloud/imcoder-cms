@@ -10,6 +10,7 @@
         a.category_id categoryId,
         (select d.name from category d where d.id = a.category_id) categoryName,
         a.name name,
+        a.field field,
         a.value value,
         a.type type,
         a.size size,

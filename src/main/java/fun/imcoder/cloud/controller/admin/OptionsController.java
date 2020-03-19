@@ -26,7 +26,11 @@ public class OptionsController extends BaseController<Options, OptionsService> {
         List<Options> list = map.keySet().stream().collect(ArrayList<Options>::new, (l, o) -> {
             Options options = new Options();
             options.setOptionKey(o);
-            options.setOptionValue(map.get(o));
+            if (o.equals(ImcoderConfig.OPTIONS_KEY_KEYWORDS)) {
+                options.setOptionValue(map.get(o).replaceAll("，", ","));
+            } else {
+                options.setOptionValue(map.get(o));
+            }
             l.add(options);
         }, (m, u) -> new ArrayList<>());
         return ResponseData.success(this.service.save(list));
