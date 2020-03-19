@@ -57,6 +57,7 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     }
 
     boolean saveContentInfo(Content content, String type) {
+        content.setKeywords(content.getKeywords().replaceAll("，",","));
         List<CategoryContent> categoryContents = content.getCategoryContents();
         List<ContentTag> contentTags = content.getContentTags();
         if ("insert".equals(type)) {
