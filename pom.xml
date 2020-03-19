@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>fun.imcoder.cloud</groupId>
-    <artifactId>imcoder-blog</artifactId>
+    <artifactId>imcoder-cms</artifactId>
     <version>1.0.0</version>
-    <name>imcoder-blog</name>
+    <name>imcoder-cms</name>
     <description>博客系统</description>
 
     <properties>
@@ -63,6 +63,7 @@
     </dependencies>
 
     <build>
+        <finalName>imcoder-cms</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
