@@ -47,7 +47,7 @@ public class TemplateController extends BaseController<Template, TemplateService
      */
     @GetMapping("/file-list")
     private ResponseData<List<ImcoderFile>> fileList() throws IOException {
-        String dir = ImcoderConfig.TEMPLATES_DIR + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);;
+        String dir = ImcoderConfig.TEMPLATES_DIR + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);
         List<ImcoderFile> list = FileUtils.getFiles(dir).stream().filter(file -> file.getIsFile()).collect(Collectors.toList());
         return ResponseData.success(list);
     }
@@ -59,11 +59,20 @@ public class TemplateController extends BaseController<Template, TemplateService
 
     @PostMapping("/directory/create")
     private ResponseData createDirectory(@RequestBody ImcoderFile file) {
-        return ResponseData.success(FileUtils.mkdir(file.getPath()));
+        if (StringUtils.isEmpty(file.getPath())) {
+            file.setPath(ImcoderConfig.TEMPLATES_DIR + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE));
+        }
+        File rtnFile = new File(file.getPath() + "/" + file.getName());
+        FileUtils.mkdir(rtnFile);
+        return ResponseData.success(rtnFile);
     }
 
     @PostMapping("/create")
     private ResponseData createFile(@RequestBody ImcoderFile file) {
+        if (StringUtils.isEmpty(file.getPath())) {
+            String dir = ImcoderConfig.TEMPLATES_DIR + ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE) + "/" + file.getName();
+            file.setPath(dir);
+        }
         return ResponseData.success(FileUtils.newFile(file.getPath()));
     }
 
@@ -74,7 +83,20 @@ public class TemplateController extends BaseController<Template, TemplateService
 
     @DeleteMapping("/file/delete")
     private ResponseData delete(@RequestBody ImcoderFile file) {
-        return ResponseData.success(FileUtils.deleteFile(file.getPath()));
+        if (file.getIsFile()) {
+            FileUtils.deleteFile(file.getPath());
+        } else {
+            FileUtils.remove(new File(file.getPath()));
+        }
+        return ResponseData.success();
+    }
+
+    @PutMapping("/rename")
+    private ResponseData rename(@RequestParam String srcPath, @RequestParam String targetPath) {
+        File src = new File(srcPath);
+        File target = new File(targetPath);
+        src.renameTo(target);
+        return ResponseData.success();
     }
 
     @PostMapping("/file/copy")
