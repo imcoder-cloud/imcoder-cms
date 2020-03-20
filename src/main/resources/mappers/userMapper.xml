@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.imcoder.cloud.mapper.CategoryMapper">
+
+    <select id="customList" resultType="fun.imcoder.cloud.model.User">
+        select
+        a.id id,
+        a.username username,
+        a.nickname nickname,
+        a.password password,
+        a.email email,
+        (select group_concat(b.id) from user_role b where b.user_id = a.id) roleIds,
+        a.description description,
+        a.create_time,
+        a.modify_time
+        from user a
+    </select>
+
+</mapper>

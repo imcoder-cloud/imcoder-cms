@@ -16,7 +16,7 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
 
     @Override
     public Category saveCategory(Category category) throws ImcoderException.PathAlreadyExists {
-        category.setKeywords(category.getKeywords().replaceAll("，",","));
+        category.setKeywords(category.getKeywords().replaceAll("，", ","));
         if (StringUtils.isEmpty(category.getPath())) {
             category.setPath(new Date().getTime() + "");
         }
@@ -27,7 +27,9 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
 
     @Override
     public Category updateCategory(Category category) throws ImcoderException.PathAlreadyExists {
-        category.setKeywords(category.getKeywords().replaceAll("，",","));
+        if (category.getKeywords() != null) {
+            category.setKeywords(category.getKeywords().replaceAll("，", ","));
+        }
         if (StringUtils.isEmpty(category.getPath())) {
             category.setPath(new Date().getTime() + "");
         }

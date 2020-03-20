@@ -24,6 +24,7 @@ public class Category extends BaseModel {
     private String name;
     private String alias;
     private Integer sort;
+    private Integer status;
     private String listPage;
     private String detailPage;
     private String path;

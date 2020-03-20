@@ -21,6 +21,7 @@ public class CategoryTagDirective implements ImcoderFreemarkerTag {
     @Override
     public Object getData(int page, int size, Map params, Environment environment) {
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", 1);
         queryWrapper.orderByAsc("sort");
         List<Category> list = categoryService.list(queryWrapper);
         return convertToTree(list, 0);

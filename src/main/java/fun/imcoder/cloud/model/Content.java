@@ -61,4 +61,7 @@ public class Content extends BaseModel {
     private Map<String, Object> extFields;
     @TableField(exist = false)
     private List<Map<String, Object>> extFieldList;
+    @TableField(exist = false)
+    private String[] multiImg;
+
 }

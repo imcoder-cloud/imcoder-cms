@@ -3,6 +3,7 @@ package fun.imcoder.cloud.controller.content;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import fun.imcoder.cloud.model.Category;
 import fun.imcoder.cloud.model.Content;
+import fun.imcoder.cloud.model.ExtField;
 import fun.imcoder.cloud.model.Tag;
 import fun.imcoder.cloud.service.CategoryService;
 import fun.imcoder.cloud.service.ContentExtService;
@@ -20,7 +21,9 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -120,12 +123,24 @@ public class MainController {
         QueryWrapper<Content> queryWrapper = new QueryWrapper<>(param);
         contentService.addVisits(param);
         Content content = contentService.getOne(queryWrapper);
+        content.setMultiImg(content.getImgs().split("\\|\\|"));
         for (Field field : content.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             model.addAttribute(field.getName(), field.get(content));
         }
+        List<ExtField> extList = contentService.findExtField(content);
+        Map<String, String> extMap = extList.stream().collect(Collectors.toMap(ExtField::getField, a -> a.getType(), (k1, k2) -> k1));
         Map<String, String> extFields = contentExtService.getByContentId(content);
-        model.addAttribute("extFields", extFields);
+        Map<String, Object> extFieldMap = new HashMap<>();
+        extFields.keySet().forEach(k -> {
+            String type = extMap.get(k);
+            if ("checkbox".equals(type) || "image".equals(type) || "file".equals(type)) {
+                extFieldMap.put(k, extFields.get(k).split("\\|\\|"));
+            } else {
+                extFieldMap.put(k, extFields.get(k));
+            }
+        });
+        model.addAttribute("extFields", extFieldMap);
         return ImcoderUtils.renderTemplate(content.getPage().split("\\.")[0]);
     }
 

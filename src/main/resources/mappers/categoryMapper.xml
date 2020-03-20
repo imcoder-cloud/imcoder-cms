@@ -12,6 +12,7 @@
         a.list_page listPage,
         a.detail_page detailPage,
         a.out_link outLink,
+        a.status status,
         a.icon icon,
         a.alias alias,
         a.path path,
