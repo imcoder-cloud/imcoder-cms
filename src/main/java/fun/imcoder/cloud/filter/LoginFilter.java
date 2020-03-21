@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "loginFilter", urlPatterns = {"/*"})
+@WebFilter(filterName = "loginFilter", urlPatterns = {"/api/admin/*"})
 public class LoginFilter implements Filter {
     // 不需要登录就可以访问的路径(比如:注册登录等)
-    private String[] includeUrls = new String[]{"/api/admin/user/login"};
+    private String[] includeUrls = new String[]{"/api/admin/user/login", "/api/admin/upload/*"};
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
