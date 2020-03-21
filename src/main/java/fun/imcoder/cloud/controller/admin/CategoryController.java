@@ -18,7 +18,7 @@ public class CategoryController extends BaseController<Category, CategoryService
     @GetMapping("/tree")
     public ResponseData<List<Category>> treePage() {
         List<Category> list = service.customList(new HashMap<>());
-        return ResponseData.success(ImcoderUtils.convertToTree(list, 0));
+        return ResponseData.success(ImcoderUtils.convertCategoryToTree(list, 0));
     }
 
     @PostMapping("/save")

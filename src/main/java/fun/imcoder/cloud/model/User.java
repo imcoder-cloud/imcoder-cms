@@ -20,5 +20,11 @@ public class User extends BaseModel {
     private String description;
 
     @TableField(exist = false)
-    private List<String> roleIds;
+    private List<Integer> roleIds;
+    @TableField(exist = false)
+    private String roleIdStr;
+    @TableField(exist = false)
+    private String roleNames;
+    @TableField(exist = false)
+    private List<Permission> permissions;
 }

@@ -2,20 +2,40 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="fun.imcoder.cloud.mapper.CategoryMapper">
+<mapper namespace="fun.imcoder.cloud.mapper.UserMapper">
 
-    <select id="customList" resultType="fun.imcoder.cloud.model.User">
+    <select id="customPage" resultType="fun.imcoder.cloud.model.User">
         select
         a.id id,
         a.username username,
         a.nickname nickname,
         a.password password,
         a.email email,
-        (select group_concat(b.id) from user_role b where b.user_id = a.id) roleIds,
+        a.avatar avatar,
+        (select group_concat(b.role_id) from user_role b where b.user_id = a.id) roleIdStr,
+        (select group_concat(c.name) from role c where c.id in (select b.role_id from user_role b where b.user_id = a.id)) roleNames,
         a.description description,
         a.create_time,
         a.modify_time
         from user a
+    </select>
+
+    <select id="getPermission" resultType="fun.imcoder.cloud.model.Permission">
+        select
+            a.id id,
+            a.name name,
+            a.parent_id parentId,
+            a.path path,
+            a.type type,
+            a.en_name enName,
+            a.icon icon,
+            a.sort sort,
+            a.fixed fixed,
+            a.status status,
+            a.component component,
+            a.redirect redirect
+        from permission a
+        where a.id in(select b.permission_id from role_permission b where b.role_id in (select c.role_id from user_role c where c.user_id = #{id}))
     </select>
 
 </mapper>

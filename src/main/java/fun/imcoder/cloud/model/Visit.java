@@ -26,8 +26,13 @@ public class Visit extends BaseModel {
     private String os;
     private String browser;
     private String terminal;
-    private String engine;
-    private String uri;
+    private String source;
+    private String url;
     private String keyword;
     private String type;
+
+    @TableField(exist = false)
+    private String startDate;
+    @TableField(exist = false)
+    private String endDate;
 }

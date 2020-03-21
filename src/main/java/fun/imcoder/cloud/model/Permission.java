@@ -7,6 +7,7 @@ import fun.imcoder.cloud.base.BaseModel;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Permission model
@@ -27,8 +28,11 @@ public class Permission extends BaseModel {
     private String type;
     private Integer sort;
     private Integer fixed;
+    private Integer status;
     private String redirect;
 
     @TableField(exist = false)
     private List<Permission> children;
+    @TableField(exist = false)
+    private Map<String, Options> meta;
 }
