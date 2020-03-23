@@ -23,8 +23,8 @@ public class BannerServiceImpl extends BaseServiceImpl<BannerMapper, Banner> imp
                 } else {
                     o.setGroupId(banner.getGroupId() + 1);
                 }
-                this.baseMapper.insert(o);
             }
+            this.baseMapper.insert(o);
         });
         return true;
     }

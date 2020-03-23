@@ -43,6 +43,11 @@ public class MainController {
         return ImcoderUtils.renderTemplate("index");
     }
 
+    @GetMapping("/index")
+    public String index(Model model) {
+        return "redirect:/";
+    }
+
     @GetMapping("/admin")
     public String admin(Model model) {
         return "admin/index";

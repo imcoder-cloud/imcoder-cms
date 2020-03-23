@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.SqlCondition;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import fun.imcoder.cloud.base.BaseModel;
+import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import lombok.Data;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public class Category extends BaseModel {
     private String path;
     private String outLink;
     private String icon;
+    private String imgs;
+    private Integer type;
     private String keywords;
     private String description;
 
@@ -37,4 +40,9 @@ public class Category extends BaseModel {
     private List<Category> children;
     @TableField(exist = false)
     private String modelName;
+    @TableField(exist = false)
+    private String[] multiImg;
+    @TableField(exist = false)
+    private String link;
+
 }

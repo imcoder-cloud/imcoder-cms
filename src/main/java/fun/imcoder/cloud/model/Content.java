@@ -50,6 +50,8 @@ public class Content extends BaseModel {
     @TableField(exist = false)
     private String categoryNames;
     @TableField(exist = false)
+    private String link;
+    @TableField(exist = false)
     private List<CategoryContent> categoryContents;
     @TableField(exist = false)
     private List<ContentTag> contentTags;
