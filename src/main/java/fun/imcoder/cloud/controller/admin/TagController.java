@@ -17,7 +17,7 @@ public class TagController extends BaseController<Tag, TagService> {
     }
 
     @PutMapping("/update")
-    private ResponseData<Tag> update(@RequestBody Tag tag) throws ImcoderException.PathAlreadyExists {
+    private ResponseData<Tag> modify(@RequestBody Tag tag) throws ImcoderException.PathAlreadyExists {
         return ResponseData.success(service.updateTag(tag));
     }
 

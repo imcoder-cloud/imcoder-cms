@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="fun.imcoder.cloud.mapper.VisitMapper">
+
+    <select id="count7Day" resultType="java.util.Map">
+        select date_format(create_time, '%Y-%m-%d') date, count(*) count
+        from visit
+        where date_format(create_time, '%Y-%m-%d') &gt;= #{startDate}
+          and date_format(create_time, '%Y-%m-%d') &lt;= #{endDate}
+          and type = #{type}
+        group by date_format(create_time, '%Y-%m-%d')
+        order by date_format(create_time, '%Y-%m-%d')
+    </select>
+
+    <select id="count7DayIP" resultType="java.util.Map">
+        SELECT count(*) count,
+               a.date
+        FROM (
+                 SELECT date_format(create_time, '%Y-%m-%d') date,
+                        count(*)                             count,
+                        ip
+                 FROM visit
+                 WHERE date_format(create_time, '%Y-%m-%d') &gt;= #{startDate}
+                   AND date_format(create_time, '%Y-%m-%d') &lt;= #{endDate}
+                 GROUP BY date_format(create_time, '%Y-%m-%d'),
+                          ip) a
+        GROUP BY a.date
+        ORDER BY a.date
+    </select>
+
+    <select id="oSCount" resultType="java.util.Map">
+        select count(*) value, os name
+        from visit
+        where date_format(create_time, '%Y-%m-%d') = #{date}
+        group by os
+    </select>
+
+    <select id="terminalCount" resultType="java.util.Map">
+        select count(*) value, terminal name
+        from visit
+        group by terminal
+    </select>
+
+    <select id="countTotalVisit" resultType="java.util.Map">
+        select count(*) count
+        from visit
+        where type = #{type}
+    </select>
+
+    <select id="countDayVisit" resultType="java.util.Map">
+        select count(*) count
+        from visit
+        where date_format(create_time, '%Y-%m-%d') = #{date}
+          and type = #{type}
+    </select>
+
+    <select id="countTodayCityVisit" resultType="java.util.List">
+        SELECT a.city                                         name,
+               sum(CASE a.type WHEN 'UV' THEN a.count END) AS UV,
+               sum(CASE a.type WHEN 'PV' THEN a.count END) AS PV
+        FROM (SELECT count(*) count, city, type
+              FROM visit
+              WHERE date_format(create_time, '%Y-%m-%d') = #{date}
+              GROUP BY city, type) a
+        GROUP BY a.city
+    </select>
+
+</mapper>

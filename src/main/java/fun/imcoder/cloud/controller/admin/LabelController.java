@@ -17,7 +17,7 @@ public class LabelController extends BaseController<Label, LabelService> {
     }
 
     @PutMapping("/update")
-    public ResponseData<Label> update(@RequestBody Label label) throws Exception {
+    public ResponseData<Label> modify(@RequestBody Label label) throws Exception {
         service.updateLabel(label);
         return ResponseData.success(label);
     }

@@ -27,7 +27,7 @@ public class CategoryController extends BaseController<Category, CategoryService
     }
 
     @PutMapping("/update")
-    private ResponseData<Category> update(@RequestBody Category category) throws ImcoderException.PathAlreadyExists {
+    private ResponseData<Category> modify(@RequestBody Category category) throws ImcoderException.PathAlreadyExists {
         return ResponseData.success(service.updateCategory(category));
     }
 

@@ -137,15 +137,17 @@ public class MainController {
         Map<String, String> extMap = extList.stream().collect(Collectors.toMap(ExtField::getField, a -> a.getType(), (k1, k2) -> k1));
         Map<String, String> extFields = contentExtService.getByContentId(content);
         Map<String, Object> extFieldMap = new HashMap<>();
-        extFields.keySet().forEach(k -> {
-            String type = extMap.get(k);
-            if ("checkbox".equals(type) || "image".equals(type) || "file".equals(type)) {
-                extFieldMap.put(k, extFields.get(k).split("\\|\\|"));
-            } else {
-                extFieldMap.put(k, extFields.get(k));
-            }
-        });
-        model.addAttribute("extFields", extFieldMap);
+        if(extFields != null){
+            extFields.keySet().forEach(k -> {
+                String type = extMap.get(k);
+                if ("checkbox".equals(type) || "image".equals(type) || "file".equals(type)) {
+                    extFieldMap.put(k, extFields.get(k).split("\\|\\|"));
+                } else {
+                    extFieldMap.put(k, extFields.get(k));
+                }
+            });
+            model.addAttribute("extFields", extFieldMap);
+        }
         return ImcoderUtils.renderTemplate(content.getPage().split("\\.")[0]);
     }
 

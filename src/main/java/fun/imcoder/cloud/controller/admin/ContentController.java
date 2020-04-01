@@ -17,7 +17,7 @@ public class ContentController extends BaseController<Content, ContentService> {
     }
 
     @PutMapping("/update")
-    private ResponseData update(@RequestBody Content content) throws ImcoderException.PathAlreadyExists {
+    private ResponseData modify(@RequestBody Content content) throws ImcoderException.PathAlreadyExists {
         return ResponseData.success(service.updateContent(content));
     }
 

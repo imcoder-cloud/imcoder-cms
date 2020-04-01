@@ -23,7 +23,7 @@ public class FormController extends BaseController<Form, FormService> {
     }
 
     @PutMapping("/update")
-    public ResponseData<Form> update(@RequestBody Form form) throws Exception {
+    public ResponseData<Form> modify(@RequestBody Form form) throws Exception {
         service.updateForm(form);
         return ResponseData.success(form);
     }
