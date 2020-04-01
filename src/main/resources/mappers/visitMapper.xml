@@ -56,7 +56,7 @@
           and type = #{type}
     </select>
 
-    <select id="countTodayCityVisit" resultType="java.util.List">
+    <select id="countTodayCityVisit" resultType="java.util.Map">
         SELECT a.city                                         name,
                sum(CASE a.type WHEN 'UV' THEN a.count END) AS UV,
                sum(CASE a.type WHEN 'PV' THEN a.count END) AS PV

@@ -21,7 +21,9 @@ public interface ImcoderFreemarkerTag extends TemplateDirectiveModel {
         // 若没有定义返回key 则用默认key
         Object resultKey = params.get("result");
         environment.setVariable(resultKey != null ? resultKey.toString() : DEFAULT_KEY_IMCODER, templateModel);
-        body.render(environment.getOut());
+        if (body != null) {
+            body.render(environment.getOut());
+        }
     }
 
     /**
