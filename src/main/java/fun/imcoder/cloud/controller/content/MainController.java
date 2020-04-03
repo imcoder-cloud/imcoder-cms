@@ -92,7 +92,7 @@ public class MainController {
         Category category = categoryService.getOne(queryWrapper);
         model.addAttribute("categoryId", category.getId());
         model.addAttribute("categoryName", category.getName());
-        return ImcoderUtils.renderTemplate(category.getListPage());
+        return ImcoderUtils.renderTemplate(category.getListPage() != null ? category.getListPage() : category.getDetailPage());
     }
 
     /**
@@ -137,7 +137,7 @@ public class MainController {
         Map<String, String> extMap = extList.stream().collect(Collectors.toMap(ExtField::getField, a -> a.getType(), (k1, k2) -> k1));
         Map<String, String> extFields = contentExtService.getByContentId(content);
         Map<String, Object> extFieldMap = new HashMap<>();
-        if(extFields != null){
+        if (extFields != null) {
             extFields.keySet().forEach(k -> {
                 String type = extMap.get(k);
                 if ("checkbox".equals(type) || "image".equals(type) || "file".equals(type)) {
