@@ -26,9 +26,9 @@ public class VisitController extends BaseController<Visit, VisitService> {
     public ResponseData<IPage<Visit>> page(@ModelParam(ModelParamType.PAGE) PageRequest<Visit> pageRequest) {
         Page<Visit> page = new Page<>(pageRequest.getPageNum(), pageRequest.getPageSize());
         QueryWrapper<Visit> queryWrapper = new QueryWrapper<>();
-        queryWrapper.orderByDesc(pageRequest.getParams().getOrder());
+        queryWrapper.orderByDesc("create_time");
         Visit visit = pageRequest.getParams();
-        queryWrapper.setEntity(pageRequest.getParams());
+        queryWrapper.setEntity(visit);
         queryWrapper.gt("create_time", visit.getStartDate());
         queryWrapper.lt("create_time", visit.getEndDate() + " 23:59:59");
         IPage rtn = service.page(page, queryWrapper);
