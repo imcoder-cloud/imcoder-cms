@@ -1,6 +1,7 @@
 package fun.imcoder.cloud.controller.content;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.model.Category;
 import fun.imcoder.cloud.model.Content;
 import fun.imcoder.cloud.model.ExtField;
@@ -125,14 +126,25 @@ public class MainController {
     public String archives(Model model, @PathVariable String path) throws IllegalAccessException {
         Content param = new Content();
         param.setPath(path);
+        param.setImgs(null);
         QueryWrapper<Content> queryWrapper = new QueryWrapper<>(param);
         contentService.addVisits(param);
         Content content = contentService.getOne(queryWrapper);
+        Content pre = contentService.getPrevious(content.getEditTime());
+        if (pre != null) {
+            pre.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/archives/" + pre.getPath());
+        }
+        Content next = contentService.getNext(content.getEditTime());
+        if (next != null) {
+            next.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/archives/" + next.getPath());
+        }
         content.setMultiImg(content.getImgs().split("\\|\\|"));
         for (Field field : content.getClass().getDeclaredFields()) {
             field.setAccessible(true);
             model.addAttribute(field.getName(), field.get(content));
         }
+        model.addAttribute("previous", pre);
+        model.addAttribute("next", next);
         List<ExtField> extList = contentService.findExtField(content);
         Map<String, String> extMap = extList.stream().collect(Collectors.toMap(ExtField::getField, a -> a.getType(), (k1, k2) -> k1));
         Map<String, String> extFields = contentExtService.getByContentId(content);

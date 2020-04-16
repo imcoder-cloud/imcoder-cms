@@ -85,6 +85,38 @@
         where id = #{id}
     </select>
 
+    <select id="getNext" resultType="fun.imcoder.cloud.model.Content">
+        select
+            a.id id,
+            a.title title,
+            a.path path,
+            a.keywords keywords,
+            a.description description,
+            a.img img,
+            a.imgs imgs,
+            a.visits visits,
+            a.likes likes,
+            a.edit_time editTime
+        from content a
+        where a.edit_time &lt; #{editTime} order by a.edit_time desc limit 0, 1
+    </select>
+
+    <select id="getPrevious" resultType="fun.imcoder.cloud.model.Content">
+        select
+            a.id id,
+            a.title title,
+            a.path path,
+            a.keywords keywords,
+            a.description description,
+            a.img img,
+            a.imgs imgs,
+            a.visits visits,
+            a.likes likes,
+            a.edit_time editTime
+        from content a
+        where a.edit_time &gt; #{editTime} limit 0, 1
+    </select>
+
     <select id="findExtField" resultType="fun.imcoder.cloud.model.ExtField">
         select
             a.id id,

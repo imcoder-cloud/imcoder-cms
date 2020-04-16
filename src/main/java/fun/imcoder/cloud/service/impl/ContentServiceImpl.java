@@ -61,6 +61,16 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         return this.baseMapper.findExtField(content);
     }
 
+    @Override
+    public Content getPrevious(String editTime) {
+        return this.baseMapper.getPrevious(editTime);
+    }
+
+    @Override
+    public Content getNext(String editTime) {
+        return this.baseMapper.getNext(editTime);
+    }
+
     boolean saveContentInfo(Content content, String type) {
         content.setKeywords(content.getKeywords().replaceAll("，",","));
         List<CategoryContent> categoryContents = content.getCategoryContents();

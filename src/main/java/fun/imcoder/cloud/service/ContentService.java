@@ -15,4 +15,8 @@ public interface ContentService extends BaseService<Content> {
     Boolean addVisits(Content content);
 
     List<ExtField> findExtField(Content content);
+
+    Content getPrevious(String editTime);
+
+    Content getNext(String editTime);
 }

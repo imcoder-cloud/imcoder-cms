@@ -26,4 +26,8 @@ public interface ContentMapper extends BaseMapper<Content> {
 
     Boolean addVisits(Content content);
 
+    Content getPrevious(String editTime);
+
+    Content getNext(String editTime);
+
 }
