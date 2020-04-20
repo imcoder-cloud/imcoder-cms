@@ -33,8 +33,9 @@ public class ImcoderConfig extends WebMvcConfig {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/" + UPLOAD_FOLDER + "/**", "/" + STATIC_FOLDER + "/**")
-                .addResourceLocations("file:" + UPLOAD_DIR, "file:" + TEMPLATES_DIR + options.get(OPTIONS_KEY_TEMPLATE) + "/" + STATIC_FOLDER + "/", "classpath:/admin/static/");
+        String staticPath = "file:" + TEMPLATES_DIR + options.get(OPTIONS_KEY_TEMPLATE) + "/";
+        registry.addResourceHandler("/" + UPLOAD_FOLDER + "/**", "/" + STATIC_FOLDER + "/**", "/**")
+                .addResourceLocations("file:" + UPLOAD_DIR, staticPath + STATIC_FOLDER + "/", staticPath, "classpath:/admin/static/");
     }
 
 

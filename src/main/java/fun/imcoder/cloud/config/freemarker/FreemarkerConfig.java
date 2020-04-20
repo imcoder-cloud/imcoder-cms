@@ -59,7 +59,7 @@ public class FreemarkerConfig implements ApplicationContextAware {
     @Bean
     public FreeMarkerConfigurer freeMarkerConfigurer() {
         FreeMarkerConfigurer configurer = new FreeMarkerConfigurer();
-        configurer.setTemplateLoaderPaths("file:///" + ImcoderConfig.TEMPLATES_DIR, "classpath:/");
+        configurer.setTemplateLoaderPaths("file:///" + ImcoderConfig.TEMPLATES_DIR, "classpath:/", "classpath:/templates/");
         configurer.setDefaultEncoding("UTF-8");
         return configurer;
     }

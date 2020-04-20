@@ -54,6 +54,11 @@ public class MainController {
         return "admin/index";
     }
 
+    @GetMapping("/test")
+    public String test(Model model) {
+        return ImcoderUtils.renderTemplate("test");
+    }
+
     /**
      * 所有栏目分类
      * 模板为 categories.html

@@ -67,11 +67,13 @@ public class ImcoderUtils {
      * @return
      */
     public static String renderTemplate(String path) {
-        return ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE) + "/" + path;
+        String template = ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);
+        return "default".equals(template) ? path : template + "/" + path;
     }
 
     /**
      * 访问路径必须唯一
+     *
      * @param mapper
      * @param id
      * @param path
