@@ -33,11 +33,18 @@ public class Category extends BaseModel {
     private String icon;
     private String imgs;
     private Integer type;
+    private Integer showChildren;
     private String keywords;
     private String description;
 
     @TableField(exist = false)
     private List<Category> children;
+    @TableField(exist = false)
+    private List<Category> parentList;
+    @TableField(exist = false)
+    private Category top;
+    @TableField(exist = false)
+    private Category parent;
     @TableField(exist = false)
     private String modelName;
     @TableField(exist = false)

@@ -54,9 +54,17 @@ public class MainController {
         return "admin/index";
     }
 
-    @GetMapping("/test")
-    public String test(Model model) {
-        return ImcoderUtils.renderTemplate("test");
+    /**
+     * 栏目内容
+     * 网站菜单内容
+     *
+     * @param model
+     * @param path
+     * @return
+     */
+    @GetMapping("/{path}")
+    public String test(Model model, @PathVariable String path) {
+        return renderCategory(model, path);
     }
 
     /**
@@ -92,13 +100,7 @@ public class MainController {
      */
     @GetMapping("/categories/{path}")
     public String category(Model model, @PathVariable String path) {
-        Category param = new Category();
-        param.setPath(path);
-        QueryWrapper<Category> queryWrapper = new QueryWrapper<>(param);
-        Category category = categoryService.getOne(queryWrapper);
-        model.addAttribute("categoryId", category.getId());
-        model.addAttribute("categoryName", category.getName());
-        return ImcoderUtils.renderTemplate(category.getListPage() != null ? category.getListPage() : category.getDetailPage());
+        return renderCategory(model, path);
     }
 
     /**
@@ -165,7 +167,30 @@ public class MainController {
             });
             model.addAttribute("extFields", extFieldMap);
         }
-        return ImcoderUtils.renderTemplate(content.getPage().split("\\.")[0]);
+        return ImcoderUtils.renderTemplate(content.getPage());
+    }
+
+    private String renderCategory(Model model, String path) {
+        Category param = new Category();
+        param.setPath(path);
+        QueryWrapper<Category> queryWrapper = new QueryWrapper<>(param);
+        Category category = categoryService.getOne(queryWrapper);
+        List<Category> parentList = categoryService.getParentList(category.getId());
+        if (parentList.size() > 1) {
+            // 最后一个是自己 所以去除最后一个
+            parentList.remove(parentList.size() - 1);
+            category.setParentList(parentList);
+            category.setParent(parentList.get(parentList.size() - 1));
+        }
+        category.setTop(parentList.get(0));
+        List<Category> childrenList = categoryService.getChildrenList(category.getId());
+        if (childrenList.size() > 1) {
+            // 第一个是自己 所以去除第一个
+            childrenList.remove(0);
+            category.setChildren(ImcoderUtils.convertCategoryToTree(childrenList, category.getId()));
+        }
+        model.addAttribute("currentCategory", category);
+        return ImcoderUtils.renderTemplate(category.getListPage() != null ? category.getListPage() : category.getDetailPage());
     }
 
 }

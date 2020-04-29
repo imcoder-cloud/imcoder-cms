@@ -67,6 +67,7 @@ public class ImcoderUtils {
      * @return
      */
     public static String renderTemplate(String path) {
+        path = path.split("\\.html")[0];
         String template = ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_TEMPLATE);
         return "default".equals(template) ? path : template + "/" + path;
     }

@@ -18,7 +18,7 @@
                category_id categoryId,
                content_id contentId
         from category_content a
-        where a.category_id in (select b.id from category b where find_in_set(id,get_category_tree(#{categoryId})))
+        where a.category_id in (select b.id from category b where find_in_set(id,get_children_category(#{categoryId})))
     </select>
 
 </mapper>

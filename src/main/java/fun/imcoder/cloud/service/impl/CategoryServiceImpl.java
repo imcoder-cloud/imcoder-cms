@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Category> implements CategoryService {
@@ -34,6 +35,16 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
         ImcoderUtils.pathMustUnique(this.baseMapper, category.getId(), category.getPath());
         this.baseMapper.updateById(category);
         return category;
+    }
+
+    @Override
+    public List<Category> getParentList(Integer categoryId) {
+        return this.baseMapper.getParentList(categoryId);
+    }
+
+    @Override
+    public List<Category> getChildrenList(Integer categoryId) {
+        return this.baseMapper.getChildrenList(categoryId);
     }
 
     private void replaceKeywords(Category category) {

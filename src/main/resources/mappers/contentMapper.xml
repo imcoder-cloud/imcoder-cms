@@ -42,7 +42,7 @@
             <if test="params.categoryId != null and params.categoryId != '' ">
                 and a.id in (
                 select b.content_id from category_content b where b.category_id in (select id from category
-                where find_in_set(id,get_category_tree(#{params.categoryId})))
+                where find_in_set(id,get_children_category(#{params.categoryId})))
                 )
             </if>
         </where>

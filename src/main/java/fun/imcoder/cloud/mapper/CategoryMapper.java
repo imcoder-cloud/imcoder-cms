@@ -8,9 +8,15 @@ import fun.imcoder.cloud.common.PageRequest;
 import fun.imcoder.cloud.model.Category;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @Author cdd
  * @Date 2020-03-06
  */
 public interface CategoryMapper extends BaseMapper<Category> {
+
+    List<Category> getParentList(Integer categoryId);
+
+    List<Category> getChildrenList(Integer categoryId);
 }
