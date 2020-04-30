@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.*;
 public class ExtFieldController extends BaseController<ExtField, ExtFieldService> {
 
     @GetMapping("/getByCategoryIds")
-    private ResponseData extFields(@RequestParam String categoryIds) {
+    private ResponseData extFields(@RequestParam String categoryIds, @RequestParam String struct) {
         QueryWrapper<ExtField> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("category_id", categoryIds.split(","));
+        queryWrapper.eq("struct", struct);
         return ResponseData.success(service.list(queryWrapper));
     }
 

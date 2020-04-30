@@ -13,6 +13,7 @@
         a.field field,
         a.value value,
         a.type type,
+        a.struct struct,
         a.size size,
         a.description description,
         a.sort sort,
@@ -33,12 +34,22 @@
         order by a.sort
     </select>
 
-    <update id="addColumn" parameterType="fun.imcoder.cloud.model.ExtField">
+    <update id="addCategoryColumn" parameterType="fun.imcoder.cloud.model.ExtField">
+        alter table category_ext
+            add column ${field} varchar(${size}) default ''
+    </update>
+
+    <update id="delCategoryColumn" parameterType="fun.imcoder.cloud.model.ExtField">
+        alter table category_ext
+            drop column ${field}
+    </update>
+
+    <update id="addContentColumn" parameterType="fun.imcoder.cloud.model.ExtField">
         alter table content_ext
             add column ${field} varchar(${size}) default ''
     </update>
 
-    <update id="delColumn" parameterType="fun.imcoder.cloud.model.ExtField">
+    <update id="delContentColumn" parameterType="fun.imcoder.cloud.model.ExtField">
         alter table content_ext
             drop column ${field}
     </update>

@@ -20,7 +20,7 @@ public class SlideTagDirective implements ImcoderFreemarkerTag {
     @Override
     public Object getData(int page, int size, Map params, Environment environment) {
         QueryWrapper<Banner> queryWrapper = new QueryWrapper<>();
-        String groupId = params.get("group") != null ? params.get("group").toString() : "1"; // 默认是导航
+        String groupId = params.get("group") != null ? params.get("group").toString() : "1";
         queryWrapper.eq("group_id", groupId);
         queryWrapper.orderByAsc("sort");
         List<Banner> list = bannerService.list(queryWrapper);

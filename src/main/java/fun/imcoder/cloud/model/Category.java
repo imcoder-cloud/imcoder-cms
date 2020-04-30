@@ -9,6 +9,7 @@ import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Category model
@@ -31,6 +32,7 @@ public class Category extends BaseModel {
     private String path;
     private String outLink;
     private String icon;
+    private String img;
     private String imgs;
     private Integer type;
     private Integer showChildren;
@@ -51,5 +53,9 @@ public class Category extends BaseModel {
     private String[] multiImg;
     @TableField(exist = false)
     private String link;
+    @TableField(exist = false)
+    private Map<String, Object> extFields;
+    @TableField(exist = false)
+    private List<ExtField> extFieldList;
 
 }

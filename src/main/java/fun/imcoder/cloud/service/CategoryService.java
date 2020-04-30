@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface CategoryService extends BaseService<Category> {
 
-    Category saveCategory(Category category) throws ImcoderException.PathAlreadyExists;
+    Category saveCategory(Category category) throws Exception;
 
     Category updateCategory(Category category) throws ImcoderException.PathAlreadyExists;
 

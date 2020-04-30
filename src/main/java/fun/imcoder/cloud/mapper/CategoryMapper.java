@@ -9,6 +9,7 @@ import fun.imcoder.cloud.model.Category;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author cdd
@@ -19,4 +20,10 @@ public interface CategoryMapper extends BaseMapper<Category> {
     List<Category> getParentList(Integer categoryId);
 
     List<Category> getChildrenList(Integer categoryId);
+
+    Boolean insertExt(Map<String, Object> map);
+
+    Boolean updateExt(Map<String, Object> map);
+
+    Map getExtByCategoryId(Map<String, Object> map);
 }

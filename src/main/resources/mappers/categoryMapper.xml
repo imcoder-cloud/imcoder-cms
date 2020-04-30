@@ -14,6 +14,7 @@
                a.status        status,
                a.show_children showChildren,
                a.icon          icon,
+               a.img           img,
                a.imgs          imgs,
                a.alias         alias,
                a.path          path,
@@ -37,6 +38,7 @@
                a.status        status,
                a.show_children showChildren,
                a.icon          icon,
+               a.img           img,
                a.imgs          imgs,
                a.alias         alias,
                a.path          path,
@@ -60,6 +62,7 @@
                a.status        status,
                a.show_children showChildren,
                a.icon          icon,
+               a.img           img,
                a.imgs          imgs,
                a.alias         alias,
                a.path          path,
@@ -71,6 +74,30 @@
                a.modify_time
         from category a
         where FIND_IN_SET(id, get_children_category(#{categoryId}));
+    </select>
+
+    <insert id="insertExt">
+        insert into category_ext(category_id)
+        values (#{categoryId})
+    </insert>
+
+    <update id="updateExt">
+        update category_ext
+        <set>
+            <foreach collection="fields.entrySet()" index="key" item="value" separator=",">
+                <if test="key != 'content_id'.toString()">
+                    ${key} = #{value}
+                </if>
+            </foreach>
+        </set>
+        where
+        category_id = #{categoryId}
+    </update>
+
+    <select id="getExtByCategoryId" resultType="java.util.Map">
+        select *
+        from category_ext a
+        where a.category_id = #{category_id}
     </select>
 
 </mapper>

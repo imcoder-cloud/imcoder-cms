@@ -1,5 +1,6 @@
 package fun.imcoder.cloud.service.impl;
 
+import com.baomidou.mybatisplus.extension.toolkit.SqlHelper;
 import fun.imcoder.cloud.base.BaseServiceImpl;
 import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.mapper.*;
@@ -25,7 +26,7 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     @Resource
     private ContentTagMapper contentTagMapper;
     @Resource
-    private ExtFieldMapper extFieldMapper;
+    private ContentExtMapper contentExtMapper;
 
     @Override
     public Boolean saveContent(Content content) throws ImcoderException.PathAlreadyExists {
@@ -72,7 +73,7 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     }
 
     boolean saveContentInfo(Content content, String type) {
-        content.setKeywords(content.getKeywords().replaceAll("，",","));
+        content.setKeywords(content.getKeywords().replaceAll("，", ","));
         List<CategoryContent> categoryContents = content.getCategoryContents();
         List<ContentTag> contentTags = content.getContentTags();
         if ("insert".equals(type)) {
@@ -120,6 +121,14 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         });
         content.setExtFieldList(list);
         return content;
+    }
+
+    @Override
+    public boolean removeById(Serializable id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("content_id", id);
+        contentExtMapper.deleteByMap(params);
+        return SqlHelper.retBool(this.baseMapper.deleteById(id));
     }
 
     private boolean insertContentExt(Content content) {

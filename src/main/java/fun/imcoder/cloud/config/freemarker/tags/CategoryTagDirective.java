@@ -31,11 +31,20 @@ public class CategoryTagDirective implements ImcoderFreemarkerTag {
             parentId = Integer.valueOf(params.get("parentId").toString());
             queryWrapper.eq("parent_id", parentId);
         }
+        if (!StringUtils.isEmpty(params.get("id"))) {
+            Integer id = Integer.valueOf(params.get("id").toString());
+            queryWrapper.eq("id", id);
+        }
         queryWrapper.eq("type", type);
         queryWrapper.eq("status", 1);
         queryWrapper.orderByAsc("sort");
         List<Category> list = categoryService.list(queryWrapper);
         list.forEach(category -> category.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/" + category.getPath()));
+        if (list.size() == 1 && list.get(0).getChildren() == null) {
+            Category category = list.get(0);
+            List<Category> childrenList = categoryService.getChildrenList(category.getId());
+            return ImcoderUtils.convertCategoryToTree(childrenList, category.getParentId()).get(0);
+        }
         return ImcoderUtils.convertCategoryToTree(list, parentId);
     }
 

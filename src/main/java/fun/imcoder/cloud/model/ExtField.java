@@ -20,11 +20,12 @@ public class ExtField extends BaseModel {
     @TableField(condition = SqlCondition.LIKE)
     private String name;
     private String field;
-    private String categoryId;
+    private Integer categoryId;
     private String value;
     private String type;
     private String size;
     private String description;
+    private String struct;
     private Integer sort;
 
     @TableField(exist = false)

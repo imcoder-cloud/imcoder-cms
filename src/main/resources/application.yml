@@ -4,8 +4,10 @@ spring:
   resources:
     static-locations: classpath:/admin/static/
   freemarker:
-#    template-loader-path: file:///D:/test/templates/
-#    template-loader-path: classpath:/admin/
+    settings:
+      classic_compatible: true
+    #    template-loader-path: file:///D:/test/templates/
+    #    template-loader-path: classpath:/admin/
     cache: false
     suffix: .html
 

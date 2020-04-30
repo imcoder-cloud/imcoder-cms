@@ -16,21 +16,29 @@ import java.util.Collection;
 public class ExtFieldServiceImpl extends BaseServiceImpl<ExtFieldMapper, ExtField> implements ExtFieldService {
 
     @Override
-    public boolean saveBatch(Collection<ExtField> entityList) {
-        entityList.forEach(extField -> {
-            if (StringUtils.isEmpty(extField.getId())) {
-                this.baseMapper.addColumn(extField);
+    public boolean save(ExtField extField) {
+        if (StringUtils.isEmpty(extField.getId())) {
+            if ("content".equals(extField.getStruct())) {
+                this.baseMapper.addContentColumn(extField);
+            } else if ("category".equals(extField.getStruct())) {
+                this.baseMapper.addCategoryColumn(extField);
             }
+        }
+        if (extField.getValue() != null) {
             extField.setValue(extField.getValue().replaceAll("，", ","));
-            this.baseMapper.insert(extField);
-        });
+        }
+        this.baseMapper.insert(extField);
         return true;
     }
 
     @Override
     public boolean removeById(Serializable id) {
         ExtField extField = this.baseMapper.selectById(id);
-        this.baseMapper.delColumn(extField);
+        if ("content".equals(extField.getStruct())) {
+            this.baseMapper.delContentColumn(extField);
+        } else if ("category".equals(extField.getStruct())) {
+            this.baseMapper.delCategoryColumn(extField);
+        }
         this.baseMapper.deleteById(id);
         return true;
     }

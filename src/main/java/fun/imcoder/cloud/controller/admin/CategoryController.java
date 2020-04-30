@@ -22,7 +22,7 @@ public class CategoryController extends BaseController<Category, CategoryService
     }
 
     @PostMapping("/save")
-    private ResponseData<Category> save(@RequestBody Category category) throws ImcoderException.PathAlreadyExists {
+    private ResponseData<Category> save(@RequestBody Category category) throws Exception {
         return ResponseData.success(service.saveCategory(category));
     }
 
