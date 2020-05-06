@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fun.imcoder.cloud.base.BaseMapper;
 import fun.imcoder.cloud.common.PageRequest;
 import fun.imcoder.cloud.model.Category;
+import fun.imcoder.cloud.model.ExtField;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface CategoryMapper extends BaseMapper<Category> {
     Boolean updateExt(Map<String, Object> map);
 
     Map getExtByCategoryId(Map<String, Object> map);
+
+    List<ExtField> findExtField(Category category);
 }

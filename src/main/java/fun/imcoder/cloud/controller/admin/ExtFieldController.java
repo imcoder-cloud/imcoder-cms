@@ -19,4 +19,9 @@ public class ExtFieldController extends BaseController<ExtField, ExtFieldService
         return ResponseData.success(service.list(queryWrapper));
     }
 
+    @DeleteMapping("/delete")
+    private ResponseData<Boolean> deleteExtField(@RequestBody ExtField extField) {
+        return ResponseData.success(service.deleteExtField(extField));
+    }
+
 }

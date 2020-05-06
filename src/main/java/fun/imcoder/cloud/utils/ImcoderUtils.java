@@ -4,12 +4,15 @@ import fun.imcoder.cloud.base.BaseMapper;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Category;
+import fun.imcoder.cloud.model.ExtField;
 import fun.imcoder.cloud.model.Permission;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ImcoderUtils {
 
@@ -92,5 +95,24 @@ public class ImcoderUtils {
                 throw new ImcoderException.PathAlreadyExists("访问路径[" + path + "]已经存在");
             }
         }
+    }
+
+    public static Map<String, Object> setExtFields(Model model, List<ExtField> extList, Map<String, String> extFields) {
+        Map<String, String> extMap = extList.stream().collect(Collectors.toMap(ExtField::getField, a -> a.getType(), (k1, k2) -> k1));
+        Map<String, Object> extFieldMap = new HashMap<>();
+        if (extFields != null) {
+            extFields.keySet().forEach(k -> {
+                String type = extMap.get(k);
+                if ("checkbox".equals(type) || "image".equals(type) || "file".equals(type)) {
+                    extFieldMap.put(k, extFields.get(k).split("\\|\\|"));
+                } else {
+                    extFieldMap.put(k, extFields.get(k));
+                }
+            });
+            if (model != null) {
+                model.addAttribute("extFields", extFieldMap);
+            }
+        }
+        return extFieldMap;
     }
 }

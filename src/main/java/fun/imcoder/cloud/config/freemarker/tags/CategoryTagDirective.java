@@ -6,6 +6,8 @@ import freemarker.template.TemplateModelException;
 import fun.imcoder.cloud.annotation.FreemarkerTag;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.model.Category;
+import fun.imcoder.cloud.model.ExtField;
+import fun.imcoder.cloud.service.CategoryExtService;
 import fun.imcoder.cloud.service.CategoryService;
 import fun.imcoder.cloud.utils.ImcoderUtils;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +24,8 @@ import java.util.Map;
 public class CategoryTagDirective implements ImcoderFreemarkerTag {
     @Resource
     private CategoryService categoryService;
+    @Resource
+    private CategoryExtService categoryExtService;
 
     @Override
     public Object getData(int page, int size, Map params, Environment environment) throws TemplateModelException {
@@ -43,6 +48,17 @@ public class CategoryTagDirective implements ImcoderFreemarkerTag {
         if (list.size() == 1 && list.get(0).getChildren() == null) {
             Category category = list.get(0);
             List<Category> childrenList = categoryService.getChildrenList(category.getId());
+
+            childrenList.forEach(o -> {
+                List<ExtField> extFieldList = categoryService.findExtField(o);
+                if (extFieldList != null && !extFieldList.isEmpty()) {
+                    Map<String, String> extFields = categoryExtService.getByCategoryId(o);
+                    Map<String, Object> extMap = ImcoderUtils.setExtFields(null, extFieldList, extFields);
+                    o.setExtFields(extMap);
+                }
+                o.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/" + o.getPath());
+            });
+
             return ImcoderUtils.convertCategoryToTree(childrenList, category.getParentId()).get(0);
         }
         return ImcoderUtils.convertCategoryToTree(list, parentId);

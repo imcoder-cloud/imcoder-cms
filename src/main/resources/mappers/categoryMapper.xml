@@ -100,4 +100,14 @@
         where a.category_id = #{category_id}
     </select>
 
+    <select id="findExtField" resultType="fun.imcoder.cloud.model.ExtField">
+        select
+            a.id id,
+            a.name name,
+            a.field field,
+            a.type type
+        from ext_field a
+        where category_id = #{id} and struct = 'category'
+    </select>
+
 </mapper>

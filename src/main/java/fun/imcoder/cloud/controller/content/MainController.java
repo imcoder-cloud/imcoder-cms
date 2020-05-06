@@ -6,10 +6,7 @@ import fun.imcoder.cloud.model.Category;
 import fun.imcoder.cloud.model.Content;
 import fun.imcoder.cloud.model.ExtField;
 import fun.imcoder.cloud.model.Tag;
-import fun.imcoder.cloud.service.CategoryService;
-import fun.imcoder.cloud.service.ContentExtService;
-import fun.imcoder.cloud.service.ContentService;
-import fun.imcoder.cloud.service.TagService;
+import fun.imcoder.cloud.service.*;
 import fun.imcoder.cloud.utils.ImcoderUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -38,6 +35,8 @@ public class MainController {
     private ContentService contentService;
     @Resource
     private ContentExtService contentExtService;
+    @Resource
+    private CategoryExtService categoryExtService;
 
     @GetMapping("/")
     public String content(Model model) {
@@ -62,10 +61,10 @@ public class MainController {
      * @param path
      * @return
      */
-    @GetMapping("/{path}")
-    public String test(Model model, @PathVariable String path) {
-        return renderCategory(model, path);
-    }
+//    @GetMapping("/{path}")
+//    public String test(Model model, @PathVariable String path) {
+//        return renderCategory(model, path);
+//    }
 
     /**
      * 所有栏目分类
@@ -152,21 +151,7 @@ public class MainController {
         }
         model.addAttribute("previous", pre);
         model.addAttribute("next", next);
-        List<ExtField> extList = contentService.findExtField(content);
-        Map<String, String> extMap = extList.stream().collect(Collectors.toMap(ExtField::getField, a -> a.getType(), (k1, k2) -> k1));
-        Map<String, String> extFields = contentExtService.getByContentId(content);
-        Map<String, Object> extFieldMap = new HashMap<>();
-        if (extFields != null) {
-            extFields.keySet().forEach(k -> {
-                String type = extMap.get(k);
-                if ("checkbox".equals(type) || "image".equals(type) || "file".equals(type)) {
-                    extFieldMap.put(k, extFields.get(k).split("\\|\\|"));
-                } else {
-                    extFieldMap.put(k, extFields.get(k));
-                }
-            });
-            model.addAttribute("extFields", extFieldMap);
-        }
+        ImcoderUtils.setExtFields(model, contentService.findExtField(content), contentExtService.getByContentId(content));
         return ImcoderUtils.renderTemplate(content.getPage());
     }
 
@@ -190,7 +175,11 @@ public class MainController {
             category.setChildren(ImcoderUtils.convertCategoryToTree(childrenList, category.getId()));
         }
         model.addAttribute("currentCategory", category);
+
+        ImcoderUtils.setExtFields(model, categoryService.findExtField(category), categoryExtService.getByCategoryId(category));
+
         return ImcoderUtils.renderTemplate(category.getListPage() != null ? category.getListPage() : category.getDetailPage());
     }
+
 
 }

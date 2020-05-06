@@ -41,4 +41,10 @@ public class ExtFieldServiceImpl extends BaseServiceImpl<ExtFieldMapper, ExtFiel
         this.baseMapper.deleteById(id);
         return true;
     }
+
+    @Override
+    public Boolean deleteExtField(ExtField extField) {
+        this.baseMapper.delCategoryColumn(extField);
+        return retBool(this.baseMapper.deleteById(extField.getId()));
+    }
 }
