@@ -61,10 +61,10 @@ public class MainController {
      * @param path
      * @return
      */
-//    @GetMapping("/{path}")
-//    public String test(Model model, @PathVariable String path) {
-//        return renderCategory(model, path);
-//    }
+    @GetMapping("/{path}")
+    public String test(Model model, @PathVariable String path) {
+        return renderCategory(model, path);
+    }
 
     /**
      * 所有栏目分类
@@ -176,7 +176,7 @@ public class MainController {
         }
         model.addAttribute("currentCategory", category);
 
-        ImcoderUtils.setExtFields(model, categoryService.findExtField(category), categoryExtService.getByCategoryId(category));
+        ImcoderUtils.setExtFields(model, categoryService.findExtField(), categoryExtService.getByCategoryId(category));
 
         return ImcoderUtils.renderTemplate(category.getListPage() != null ? category.getListPage() : category.getDetailPage());
     }

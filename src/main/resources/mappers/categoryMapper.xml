@@ -25,7 +25,7 @@
                a.create_time,
                a.modify_time
         from category a
-        order by a.sort
+        order by a.sort asc
     </select>
 
     <select id="getParentList" resultType="fun.imcoder.cloud.model.Category">
@@ -49,7 +49,8 @@
                a.create_time,
                a.modify_time
         from category a
-        where FIND_IN_SET(id, get_parent_category(#{categoryId}));
+        where FIND_IN_SET(id, get_parent_category(#{categoryId}))
+        order by a.sort asc
     </select>
 
     <select id="getChildrenList" resultType="fun.imcoder.cloud.model.Category">
@@ -73,7 +74,8 @@
                a.create_time,
                a.modify_time
         from category a
-        where FIND_IN_SET(id, get_children_category(#{categoryId}));
+        where FIND_IN_SET(id, get_children_category(#{categoryId}))
+        order by a.sort asc
     </select>
 
     <insert id="insertExt">
@@ -83,9 +85,12 @@
 
     <update id="updateExt">
         update category_ext
+        <if test="fields.entrySet().size()==0">
+            set modify_time = now()
+        </if>
         <set>
             <foreach collection="fields.entrySet()" index="key" item="value" separator=",">
-                <if test="key != 'content_id'.toString()">
+                <if test="key != 'category_id'">
                     ${key} = #{value}
                 </if>
             </foreach>
@@ -101,13 +106,12 @@
     </select>
 
     <select id="findExtField" resultType="fun.imcoder.cloud.model.ExtField">
-        select
-            a.id id,
-            a.name name,
-            a.field field,
-            a.type type
+        select a.id    id,
+               a.name  name,
+               a.field field,
+               a.type  type
         from ext_field a
-        where category_id = #{id} and struct = 'category'
+        where struct = 'category'
     </select>
 
 </mapper>

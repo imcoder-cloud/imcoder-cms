@@ -48,14 +48,11 @@ public class CategoryTagDirective implements ImcoderFreemarkerTag {
         if (list.size() == 1 && list.get(0).getChildren() == null) {
             Category category = list.get(0);
             List<Category> childrenList = categoryService.getChildrenList(category.getId());
-
+            List<ExtField> extFieldList = categoryService.findExtField();
             childrenList.forEach(o -> {
-                List<ExtField> extFieldList = categoryService.findExtField(o);
-                if (extFieldList != null && !extFieldList.isEmpty()) {
-                    Map<String, String> extFields = categoryExtService.getByCategoryId(o);
-                    Map<String, Object> extMap = ImcoderUtils.setExtFields(null, extFieldList, extFields);
-                    o.setExtFields(extMap);
-                }
+                Map<String, String> extFields = categoryExtService.getByCategoryId(o);
+                Map<String, Object> extMap = ImcoderUtils.setExtFields(null, extFieldList, extFields);
+                o.setExtFields(extMap);
                 o.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/" + o.getPath());
             });
 

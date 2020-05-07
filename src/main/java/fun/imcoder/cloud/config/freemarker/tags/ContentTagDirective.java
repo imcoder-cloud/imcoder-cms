@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import freemarker.core.Environment;
 import freemarker.template.TemplateModelException;
 import fun.imcoder.cloud.annotation.FreemarkerTag;
+import fun.imcoder.cloud.common.PageRequest;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.model.CategoryContent;
 import fun.imcoder.cloud.model.Content;
@@ -35,16 +36,13 @@ public class ContentTagDirective implements ImcoderFreemarkerTag {
         } else {
             categoryId = Integer.valueOf(environment.__getitem__("categoryId").toString());
         }
-        cc.setCategoryId(categoryId);
-        List<CategoryContent> ccList = categoryContentService.getByParentCategoryId(categoryId);
-        List<Integer> contentIds = ccList.stream().map(CategoryContent::getContentId).collect(Collectors.toList());
         Content content = new Content();
-        QueryWrapper<Content> queryWrapper = new QueryWrapper<>(content);
-        queryWrapper.in("id", contentIds);
-        Page<Content> p = new Page<>();
-        p.setSize(size);
-        p.setCurrent(page);
-        List<Content> list = contentService.page(p, queryWrapper).getRecords();
+        content.setCategoryId(categoryId);
+        PageRequest<Content> pageRequest = new PageRequest<>();
+        pageRequest.setPageNum(page);
+        pageRequest.setPageSize(size);
+        pageRequest.setParams(content);
+        List<Content> list = contentService.customPage(pageRequest).getRecords();
         list.forEach(o -> o.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/archives/" + o.getPath()));
         return list;
     }

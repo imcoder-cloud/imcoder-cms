@@ -71,8 +71,8 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
     }
 
     @Override
-    public List<ExtField> findExtField(Category category) {
-        return this.baseMapper.findExtField(category);
+    public List<ExtField> findExtField() {
+        return this.baseMapper.findExtField();
     }
 
     private void replaceKeywords(Category category) {
@@ -85,9 +85,6 @@ public class CategoryServiceImpl extends BaseServiceImpl<CategoryMapper, Categor
     public boolean removeById(Serializable id) {
         Map<String, Object> params = new HashMap<>();
         params.put("category_id", id);
-//        List<ExtField> list = extFieldMapper.selectByMap(params);
-//        list.forEach(o -> extFieldMapper.delCategoryColumn(o));
-//        extFieldMapper.deleteByMap(params);
         categoryExtMapper.deleteByMap(params);
         return SqlHelper.retBool(this.baseMapper.deleteById(id));
     }

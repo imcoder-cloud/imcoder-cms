@@ -5,6 +5,4 @@ import fun.imcoder.cloud.model.ExtField;
 
 public interface ExtFieldService extends BaseService<ExtField> {
 
-    Boolean deleteExtField(ExtField extField);
-
 }

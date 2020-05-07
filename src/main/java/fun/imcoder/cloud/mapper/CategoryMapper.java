@@ -28,5 +28,5 @@ public interface CategoryMapper extends BaseMapper<Category> {
 
     Map getExtByCategoryId(Map<String, Object> map);
 
-    List<ExtField> findExtField(Category category);
+    List<ExtField> findExtField();
 }

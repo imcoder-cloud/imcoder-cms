@@ -17,6 +17,6 @@ public interface CategoryService extends BaseService<Category> {
 
     List<Category> getChildrenList(Integer categoryId);
 
-    List<ExtField> findExtField(Category category);
+    List<ExtField> findExtField();
 
 }
