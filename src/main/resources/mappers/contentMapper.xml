@@ -98,7 +98,7 @@
             a.likes likes,
             a.edit_time editTime
         from content a
-        where a.edit_time &lt; #{editTime} order by a.edit_time desc limit 0, 1
+        where a.id &lt; #{id} order by a.edit_time desc limit 0, 1
     </select>
 
     <select id="getPrevious" resultType="fun.imcoder.cloud.model.Content">
@@ -114,7 +114,7 @@
             a.likes likes,
             a.edit_time editTime
         from content a
-        where a.edit_time &gt; #{editTime} limit 0, 1
+        where a.id &gt; #{id} limit 0, 1
     </select>
 
     <select id="findExtField" resultType="fun.imcoder.cloud.model.ExtField">

@@ -1,7 +1,6 @@
 package fun.imcoder.cloud.config.freemarker.tags;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import freemarker.core.Environment;
 import freemarker.template.TemplateModelException;
 import fun.imcoder.cloud.annotation.FreemarkerTag;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 @FreemarkerTag("content")

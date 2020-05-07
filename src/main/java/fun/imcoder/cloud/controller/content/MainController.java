@@ -136,11 +136,11 @@ public class MainController {
         QueryWrapper<Content> queryWrapper = new QueryWrapper<>(param);
         contentService.addVisits(param);
         Content content = contentService.getOne(queryWrapper);
-        Content pre = contentService.getPrevious(content.getEditTime());
+        Content pre = contentService.getPrevious(content.getId());
         if (pre != null) {
             pre.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/archives/" + pre.getPath());
         }
-        Content next = contentService.getNext(content.getEditTime());
+        Content next = contentService.getNext(content.getId());
         if (next != null) {
             next.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/archives/" + next.getPath());
         }

@@ -63,17 +63,19 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
     }
 
     @Override
-    public Content getPrevious(String editTime) {
-        return this.baseMapper.getPrevious(editTime);
+    public Content getPrevious(Integer id) {
+        return this.baseMapper.getPrevious(id);
     }
 
     @Override
-    public Content getNext(String editTime) {
-        return this.baseMapper.getNext(editTime);
+    public Content getNext(Integer id) {
+        return this.baseMapper.getNext(id);
     }
 
     boolean saveContentInfo(Content content, String type) {
-        content.setKeywords(content.getKeywords().replaceAll("，", ","));
+        if (content.getKeywords() != null) {
+            content.setKeywords(content.getKeywords().replaceAll("，", ","));
+        }
         List<CategoryContent> categoryContents = content.getCategoryContents();
         List<ContentTag> contentTags = content.getContentTags();
         if ("insert".equals(type)) {

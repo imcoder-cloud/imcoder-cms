@@ -16,7 +16,7 @@ public interface ContentService extends BaseService<Content> {
 
     List<ExtField> findExtField(Content content);
 
-    Content getPrevious(String editTime);
+    Content getPrevious(Integer id);
 
-    Content getNext(String editTime);
+    Content getNext(Integer id);
 }
