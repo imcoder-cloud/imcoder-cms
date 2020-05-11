@@ -1,7 +1,9 @@
 package fun.imcoder.cloud.config.freemarker.tags;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import freemarker.core.Environment;
+import freemarker.template.TemplateException;
 import freemarker.template.TemplateModelException;
 import fun.imcoder.cloud.annotation.FreemarkerTag;
 import fun.imcoder.cloud.common.PageRequest;
@@ -40,8 +42,17 @@ public class ContentTagDirective implements ImcoderFreemarkerTag {
         pageRequest.setPageNum(page);
         pageRequest.setPageSize(size);
         pageRequest.setParams(content);
-        List<Content> list = contentService.customPage(pageRequest).getRecords();
+        IPage<Content> result = contentService.customPage(pageRequest);
+        List<Content> list = result.getRecords();
         list.forEach(o -> o.setLink(ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + "/archives/" + o.getPath()));
+        try {
+            environment.__setitem__("page", result.getCurrent());
+            environment.__setitem__("size", result.getSize());
+            environment.__setitem__("totalSize", result.getTotal());
+            environment.__setitem__("totalPage", result.getPages());
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
         return list;
     }
 

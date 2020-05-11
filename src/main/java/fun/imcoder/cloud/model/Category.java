@@ -48,8 +48,6 @@ public class Category extends BaseModel {
     @TableField(exist = false)
     private Category parent;
     @TableField(exist = false)
-    private String modelName;
-    @TableField(exist = false)
     private String[] multiImg;
     @TableField(exist = false)
     private String link;

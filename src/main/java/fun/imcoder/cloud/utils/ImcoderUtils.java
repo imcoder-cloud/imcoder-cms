@@ -4,6 +4,7 @@ import fun.imcoder.cloud.base.BaseMapper;
 import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Category;
+import fun.imcoder.cloud.model.Content;
 import fun.imcoder.cloud.model.ExtField;
 import fun.imcoder.cloud.model.Permission;
 import org.springframework.ui.Model;

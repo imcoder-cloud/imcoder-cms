@@ -112,16 +112,14 @@ public class ContentServiceImpl extends BaseServiceImpl<ContentMapper, Content> 
         Map<String, Object> map = baseMapper.getContentExtByContentId(params);
         Content content = this.baseMapper.getById(id);
         List<ExtField> extList = this.baseMapper.findExtField(content);
-        List<Map<String, Object>> list = new ArrayList<>();
         extList.forEach(extField -> {
-            Map<String, Object> m = new HashMap<>();
-            m.put("field", extField.getField());
-            m.put("name", extField.getName());
-            m.put("type", extField.getType());
-            m.put("value", map.get(extField.getField()));
-            list.add(m);
+            String value = "";
+            if (map.get(extField.getField()) != null) {
+                value = map.get(extField.getField()).toString();
+            }
+            extField.setValue(value);
         });
-        content.setExtFieldList(list);
+        content.setExtFieldList(extList);
         return content;
     }
 

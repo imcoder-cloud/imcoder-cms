@@ -62,8 +62,27 @@ public class MainController {
      * @return
      */
     @GetMapping("/{path}")
-    public String test(Model model, @PathVariable String path) {
-        return renderCategory(model, path);
+    public String path(Model model, @PathVariable String path) throws IllegalAccessException {
+        if ("favicon".equals(path)) {
+            return null;
+        }
+        return renderCategory(model, path, 1);
+    }
+
+    /**
+     * 栏目内容
+     * 网站菜单内容
+     *
+     * @param model
+     * @param path
+     * @return
+     */
+    @GetMapping("/{path}/page/{page}")
+    public String pathPage(Model model, @PathVariable String path, @PathVariable Integer page) throws IllegalAccessException {
+        if ("favicon".equals(path)) {
+            return null;
+        }
+        return renderCategory(model, path, page);
     }
 
     /**
@@ -98,8 +117,20 @@ public class MainController {
      * @return
      */
     @GetMapping("/categories/{path}")
-    public String category(Model model, @PathVariable String path) {
-        return renderCategory(model, path);
+    public String categoryPathPage(Model model, @PathVariable String path) throws IllegalAccessException {
+        return renderCategory(model, path, 1);
+    }
+
+    /**
+     * 栏目内容
+     *
+     * @param model
+     * @param path
+     * @return
+     */
+    @GetMapping("/categories/{path}/page/{page}")
+    public String categoryPathPage(Model model, @PathVariable String path, Integer page) throws IllegalAccessException {
+        return renderCategory(model, path, page);
     }
 
     /**
@@ -155,27 +186,29 @@ public class MainController {
         return ImcoderUtils.renderTemplate(content.getPage());
     }
 
-    private String renderCategory(Model model, String path) {
+    private String renderCategory(Model model, String path, Integer page) throws IllegalAccessException {
+        model.addAttribute("page", page);
         Category param = new Category();
         param.setPath(path);
         QueryWrapper<Category> queryWrapper = new QueryWrapper<>(param);
         Category category = categoryService.getOne(queryWrapper);
-        List<Category> parentList = categoryService.getParentList(category.getId());
-        if (parentList.size() > 1) {
-            // 最后一个是自己 所以去除最后一个
-            parentList.remove(parentList.size() - 1);
-            category.setParentList(parentList);
-            category.setParent(parentList.get(parentList.size() - 1));
+        for (Field field : category.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+            model.addAttribute(field.getName(), field.get(category));
         }
-        category.setTop(parentList.get(0));
+        List<Category> list = categoryService.getParentList(category.getId());
+        if (category.getParentId() != 0) {
+            Category parent = list.stream().filter(o -> o.getId().equals(category.getParentId())).collect(Collectors.toList()).get(0);
+            model.addAttribute("parent", parent);
+        }
+        List<Category> parentList = ImcoderUtils.convertCategoryToTree(list, 0);
+        model.addAttribute("parentList", parentList);
+        model.addAttribute("parent", parentList.get(parentList.size() - 1));
+        model.addAttribute("top", parentList.get(0));
         List<Category> childrenList = categoryService.getChildrenList(category.getId());
         if (childrenList.size() > 1) {
-            // 第一个是自己 所以去除第一个
-            childrenList.remove(0);
-            category.setChildren(ImcoderUtils.convertCategoryToTree(childrenList, category.getId()));
+            model.addAttribute("children", ImcoderUtils.convertCategoryToTree(childrenList, category.getId()));
         }
-        model.addAttribute("currentCategory", category);
-
         ImcoderUtils.setExtFields(model, categoryService.findExtField(), categoryExtService.getByCategoryId(category));
 
         return ImcoderUtils.renderTemplate(category.getListPage() != null ? category.getListPage() : category.getDetailPage());
