@@ -45,6 +45,18 @@
                 where find_in_set(id,get_children_category(#{params.categoryId})))
                 )
             </if>
+            <if test="params.extFields != null">
+                and a.id in (
+                select b.content_id from content_ext b
+                <where>
+                    <foreach collection="params.extFields.entrySet()" index="field" item="value" separator="and">
+                        <if test="value != null and value != '' ">
+                            ${field} = #{value}
+                        </if>
+                    </foreach>
+                </where>
+                )
+            </if>
         </where>
         order by a.sort asc,a.create_time desc
     </select>
