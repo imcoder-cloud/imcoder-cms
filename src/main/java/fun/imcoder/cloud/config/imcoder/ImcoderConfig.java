@@ -10,6 +10,8 @@ import java.util.Map;
 @Configuration
 public class ImcoderConfig extends WebMvcConfig {
 
+    public final static String AUTH_HEADER = "Authorization";
+
     // 所有配置选项
     public static Map<String, String> options = new HashMap<>();
     // 所有自定义标签

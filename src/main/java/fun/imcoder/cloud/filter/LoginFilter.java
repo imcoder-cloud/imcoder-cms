@@ -2,6 +2,7 @@ package fun.imcoder.cloud.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import fun.imcoder.cloud.common.ResponseData;
+import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.enums.ResponseEnum;
 
 import javax.servlet.*;
@@ -25,7 +26,7 @@ public class LoginFilter implements Filter {
         response.setContentType("application/json; charset=utf-8");
         HttpSession session = request.getSession();
         String uri = request.getRequestURI();
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(ImcoderConfig.AUTH_HEADER);
         boolean needFilter = isNeedFilter(uri);
         if (!needFilter) { //不需要过滤直接传给下一个过滤器
             chain.doFilter(req, res);

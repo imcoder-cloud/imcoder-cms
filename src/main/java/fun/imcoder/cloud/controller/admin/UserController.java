@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import fun.imcoder.cloud.annotation.ModelParam;
 import fun.imcoder.cloud.base.BaseController;
 import fun.imcoder.cloud.common.ResponseData;
+import fun.imcoder.cloud.config.imcoder.ImcoderConfig;
 import fun.imcoder.cloud.enums.ResponseEnum;
 import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Content;
@@ -56,7 +57,7 @@ public class UserController extends BaseController<User, UserService> {
 
     @GetMapping("/permission")
     private ResponseData<List<Permission>> permission(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(ImcoderConfig.AUTH_HEADER);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(token);
         List<Permission> permissionList = this.service.getPermission(user);
@@ -74,7 +75,7 @@ public class UserController extends BaseController<User, UserService> {
 
     @GetMapping("/info")
     private ResponseData<User> info(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(ImcoderConfig.AUTH_HEADER);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(token);
         return ResponseData.success(user);
