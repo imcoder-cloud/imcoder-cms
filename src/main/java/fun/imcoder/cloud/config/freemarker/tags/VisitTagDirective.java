@@ -33,7 +33,7 @@ public class VisitTagDirective implements ImcoderFreemarkerTag {
         String client = WebUtils.getOsAndBrowserInfo(request);
         String source = request.getHeader("Referer");
         String uri = request.getRequestURI();
-        String url = ImcoderConfig.options.get(ImcoderConfig.OPTIONS_KEY_SITE_URL) + uri;
+        String url = uri;
         String keyword = WebUtils.getKeyword(request);
         visitParam.setIp(ip);
         visitParam.setCountry(address.split(",")[0]);
