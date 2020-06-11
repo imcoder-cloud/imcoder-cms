@@ -17,4 +17,5 @@ public class RolePermission extends BaseModel {
     private Integer id;
     private Integer roleId;
     private Integer permissionId;
+    private String status;
 }

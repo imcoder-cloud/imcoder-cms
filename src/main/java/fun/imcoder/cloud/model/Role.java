@@ -21,4 +21,7 @@ public class Role extends BaseModel {
     private String name;
     private String code;
     private String description;
+
+    @TableField(exist = false)
+    private String order = "id";
 }

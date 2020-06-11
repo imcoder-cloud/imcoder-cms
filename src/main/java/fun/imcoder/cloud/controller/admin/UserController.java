@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -56,21 +57,25 @@ public class UserController extends BaseController<User, UserService> {
     }
 
     @GetMapping("/permission")
-    private ResponseData<List<Permission>> permission(HttpServletRequest request) {
+    private ResponseData permission(HttpServletRequest request) {
         String token = request.getHeader(ImcoderConfig.AUTH_HEADER);
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute(token);
         List<Permission> permissionList = this.service.getPermission(user);
-        List<Permission> MenuList = permissionList.stream().filter(permission -> "menu".equals(permission.getType()) && permission.getStatus() == 1).collect(Collectors.toList());
+        List<Permission> menuList = permissionList.stream().filter(permission -> "menu".equals(permission.getType()) && permission.getStatus() == 1).collect(Collectors.toList());
+        List<Integer> permissions = permissionList.stream().filter(permission -> "action".equals(permission.getType()) && permission.getStatus() == 1).map(Permission::getId).collect(Collectors.toList());
         user.setPermissions(permissionList);
-        MenuList.forEach(m -> {
+        menuList.forEach(m -> {
             if (m.getFixed() == 1) {
                 m.setMeta(new HashMap() {{
                     put("fixed", true);
                 }});
             }
         });
-        return ResponseData.success(ImcoderUtils.convertPermissionToTree(MenuList, 0));
+        Map<String, Object> rtn = new HashMap<>();
+        rtn.put("menuList", ImcoderUtils.convertPermissionToTree(menuList, 0));
+        rtn.put("permissions", permissions);
+        return ResponseData.success(rtn);
     }
 
     @GetMapping("/info")
