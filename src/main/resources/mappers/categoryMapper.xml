@@ -22,8 +22,10 @@
                a.keywords      keywords,
                a.description   description,
                a.sort          sort,
-               a.create_time,
-               a.modify_time
+               a.user_id       userId,
+               a.create_source createSource,
+               a.create_time   createTime,
+               a.modify_time   modifyTime
         from category a
         order by a.sort asc
     </select>
@@ -46,8 +48,8 @@
                a.keywords      keywords,
                a.description   description,
                a.sort          sort,
-               a.create_time,
-               a.modify_time
+               a.create_time   createTime,
+               a.modify_time   modifyTime
         from category a
         where FIND_IN_SET(id, get_parent_category(#{categoryId}))
         order by a.sort asc
@@ -71,8 +73,8 @@
                a.keywords      keywords,
                a.description   description,
                a.sort          sort,
-               a.create_time,
-               a.modify_time
+               a.create_time   createTime,
+               a.modify_time   modifyTime
         from category a
         where FIND_IN_SET(id, get_children_category(#{categoryId}))
         order by a.sort asc

@@ -10,6 +10,7 @@
                a.nickname                                                                 nickname,
                a.password                                                                 password,
                a.email                                                                    email,
+               a.mobile                                                                   mobile,
                a.avatar                                                                   avatar,
                (select group_concat(b.role_id) from user_role b where b.user_id = a.id)   roleIdStr,
                (select group_concat(c.name)

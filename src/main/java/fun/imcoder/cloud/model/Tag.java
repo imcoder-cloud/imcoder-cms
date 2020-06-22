@@ -23,4 +23,6 @@ public class Tag extends BaseModel {
     private String path;
     private String page;
     private String icon;
+    private Integer userId;
+    private String createSource;
 }

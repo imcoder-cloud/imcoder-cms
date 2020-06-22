@@ -44,6 +44,8 @@ public class Content extends BaseModel {
     private Integer recommend;
     private Integer likes;
     private String editTime;
+    private Integer userId;
+    private String createSource;
 
     @TableField(exist = false)
     private Integer categoryId;
@@ -57,6 +59,8 @@ public class Content extends BaseModel {
     private List<ContentTag> contentTags;
     @TableField(exist = false)
     private String categoryIds;
+    @TableField(exist = false)
+    private String typeIds;
     @TableField(exist = false)
     private String tagIds;
     @TableField(exist = false)

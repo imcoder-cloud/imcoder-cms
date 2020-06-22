@@ -4,10 +4,13 @@ import fun.imcoder.cloud.base.BaseController;
 import fun.imcoder.cloud.common.ResponseData;
 import fun.imcoder.cloud.exception.ImcoderException;
 import fun.imcoder.cloud.model.Category;
+import fun.imcoder.cloud.model.User;
 import fun.imcoder.cloud.service.CategoryService;
+import fun.imcoder.cloud.utils.AuthUtils;
 import fun.imcoder.cloud.utils.ImcoderUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +25,9 @@ public class CategoryController extends BaseController<Category, CategoryService
     }
 
     @PostMapping("/save")
-    private ResponseData<Category> save(@RequestBody Category category) throws Exception {
+    private ResponseData<Category> save(@RequestBody Category category, HttpServletRequest request) throws Exception {
+        User user = AuthUtils.getUser(request);
+        category.setUserId(user.getId());
         return ResponseData.success(service.saveCategory(category));
     }
 

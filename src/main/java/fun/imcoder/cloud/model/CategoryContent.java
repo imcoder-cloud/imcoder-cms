@@ -17,4 +17,5 @@ public class CategoryContent extends BaseModel {
     private Integer id;
     private Integer categoryId;
     private Integer contentId;
+    private Integer type;
 }

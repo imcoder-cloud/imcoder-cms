@@ -6,19 +6,19 @@
 
     <insert id="insertBatch">
         insert into
-        category_content(category_id,content_id)
+        category_content(category_id,content_id,type)
         values
         <foreach collection="list" index="index" item="item" separator=",">
-            (#{item.categoryId},#{item.contentId})
+            (#{item.categoryId},#{item.contentId},#{item.type})
         </foreach>
     </insert>
 
     <select id="getByParentCategoryId" resultType="fun.imcoder.cloud.model.CategoryContent">
-        select id id,
+        select id          id,
                category_id categoryId,
-               content_id contentId
+               content_id  contentId
         from category_content a
-        where a.category_id in (select b.id from category b where find_in_set(id,get_children_category(#{categoryId})))
+        where a.category_id in (select b.id from category b where find_in_set(id, get_children_category(#{categoryId})))
     </select>
 
 </mapper>

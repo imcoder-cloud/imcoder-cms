@@ -38,6 +38,8 @@ public class Category extends BaseModel {
     private Integer showChildren;
     private String keywords;
     private String description;
+    private Integer userId;
+    private String createSource;
 
     @TableField(exist = false)
     private List<Category> children;
